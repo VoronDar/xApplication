@@ -2,6 +2,7 @@ package com.astery.xapplication.pojo.only_for_db;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -13,6 +14,7 @@ import androidx.room.PrimaryKey;
  * */
 @Entity
 public class ItemEntity {
+    @NonNull
     @PrimaryKey
     private String id;
     private String text;

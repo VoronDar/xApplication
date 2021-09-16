@@ -1,5 +1,7 @@
 package com.astery.xapplication.pojo;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,10 +10,13 @@ import androidx.room.PrimaryKey;
  * */
 @Entity
 public class Answer {
+    @NonNull
     @PrimaryKey
     private String id;
     private String text;
     private String item;
+    @ColumnInfo(name = "parent_id")
+    private String parentId;
 
     public String getId() {
         return id;
@@ -35,5 +40,13 @@ public class Answer {
 
     public void setItem(String item) {
         this.item = item;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 }

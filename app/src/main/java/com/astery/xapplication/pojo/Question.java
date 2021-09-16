@@ -16,6 +16,8 @@ import java.util.List;
 public class Question {
     private String id;
     private String text;
+
+    @ColumnInfo(name = "parent_id")
     private String parentId;
 
     @Relation(parentColumn = "id", entityColumn = "parent_id")

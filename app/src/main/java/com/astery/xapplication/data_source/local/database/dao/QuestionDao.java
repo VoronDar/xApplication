@@ -4,12 +4,14 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.astery.xapplication.pojo.Answer;
 import com.astery.xapplication.pojo.Consequence;
 import com.astery.xapplication.pojo.Desire;
 import com.astery.xapplication.pojo.Question;
+import com.astery.xapplication.pojo.only_for_db.QuestionEntity;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public interface QuestionDao {
 
     /** get questions with their answers */
     @Query("SELECT * from questionentity WHERE parent_id = :parentId")
+    @Transaction
     Single<List<Question>> getQuestions(String parentId);
 
 
@@ -37,6 +40,11 @@ public interface QuestionDao {
     void addDesire(Desire desire);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addDesires(List<Desire> desires);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addQuestion(QuestionEntity question);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void addQuestions(List<QuestionEntity> questions);
 
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -56,8 +64,8 @@ public interface QuestionDao {
     void updateDesires(List<Desire> desires);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateQuestion(Question questions);
+    void updateQuestion(QuestionEntity questions);
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateQuestions(List<Question> questions);
+    void updateQuestions(List<QuestionEntity> questions);
 
 }

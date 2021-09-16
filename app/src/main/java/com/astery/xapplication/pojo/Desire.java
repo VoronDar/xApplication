@@ -1,5 +1,6 @@
 package com.astery.xapplication.pojo;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -15,6 +16,7 @@ import java.util.List;
 @Entity
 @TypeConverters(ArrayConverter.class)
 public class Desire {
+    @NonNull
     @PrimaryKey
     private String id;
     private String text;

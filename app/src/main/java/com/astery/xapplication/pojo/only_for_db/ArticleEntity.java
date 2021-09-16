@@ -1,5 +1,6 @@
 package com.astery.xapplication.pojo.only_for_db;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -18,6 +19,7 @@ import java.util.List;
 @TypeConverters({ArrayConverter.class, TimeStampConverter.class})
 public class ArticleEntity {
 
+    @NonNull
     @PrimaryKey
     private String id;
 

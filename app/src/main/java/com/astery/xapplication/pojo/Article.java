@@ -2,8 +2,13 @@ package com.astery.xapplication.pojo;
 
 import android.graphics.Bitmap;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
 import androidx.room.Relation;
+import androidx.room.TypeConverters;
 
+import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
+import com.astery.xapplication.data_source.local.database.converter.TimeStampConverter;
 import com.astery.xapplication.pojo.only_for_db.ItemEntity;
 
 import java.sql.Timestamp;
@@ -12,8 +17,10 @@ import java.util.List;
 /**
  * the hugest thing. Has several items. Can be found in article pool.
  * */
+@TypeConverters({ArrayConverter.class, TimeStampConverter.class})
 public class Article {
     private String id;
+    @Ignore
     private Bitmap image;
 
     private String name;
@@ -21,15 +28,17 @@ public class Article {
     private int likes;
     private int dislikes;
     private int watched;
-
     private Timestamp timestamp;
 
+    @ColumnInfo(name = "wide_tags")
     private List<String> wideTags;
+    @ColumnInfo(name = "closest_tags")
     private List<String> closestTags;
 
     @Relation(parentColumn = "id", entityColumn = "parent_id")
     private List<ItemEntity> itemsEntity;
 
+    @Ignore
     private List<Item> items;
 
     public Bitmap getImage() {
@@ -118,5 +127,13 @@ public class Article {
 
     public void setItemsEntity(List<ItemEntity> items) {
         this.itemsEntity = items;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

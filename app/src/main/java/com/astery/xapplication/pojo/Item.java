@@ -2,6 +2,8 @@ package com.astery.xapplication.pojo;
 
 import android.graphics.Bitmap;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
 import androidx.room.Relation;
 
 import java.util.List;
@@ -13,8 +15,11 @@ import java.util.List;
 public class Item {
     private String id;
 
+    @Ignore
     private Bitmap image;
     private String text;
+
+    @ColumnInfo(name="parent_id")
     private String parentId;
 
     @Relation(parentColumn = "id", entityColumn = "parent_id")

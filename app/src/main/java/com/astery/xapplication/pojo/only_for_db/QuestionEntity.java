@@ -1,5 +1,6 @@
 package com.astery.xapplication.pojo.only_for_db;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -13,6 +14,7 @@ import com.astery.xapplication.data_source.local.database.converter.ArrayConvert
 @Entity
 @TypeConverters(ArrayConverter.class)
 public class QuestionEntity {
+    @NonNull
     @PrimaryKey
     private String id;
     private String text;

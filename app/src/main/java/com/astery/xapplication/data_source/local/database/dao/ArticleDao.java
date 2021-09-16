@@ -4,12 +4,14 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.astery.xapplication.pojo.Advise;
 import com.astery.xapplication.pojo.Article;
 import com.astery.xapplication.pojo.Item;
 import com.astery.xapplication.pojo.only_for_db.ArticleEntity;
+import com.astery.xapplication.pojo.only_for_db.ItemEntity;
 
 import java.util.List;
 
@@ -20,15 +22,17 @@ public interface ArticleDao{
 
     /** return items with all of its advises */
     @Query("SELECT * FROM itementity WHERE id = :itemId")
+    @Transaction
     Single<Item> getItemById(String itemId);
 
 
     /** return article with all of its items and advises */
     @Query("SELECT * FROM ArticleEntity WHERE id = :articleId")
+    @Transaction
     Single<Article> getArticleById(String articleId);
 
     @Query("SELECT * from advise where parent_id = :parentId")
-    Single<Article> getAdvisesForItem(String parentId);
+    Single<Advise> getAdvisesForItem(String parentId);
 
 
     //
@@ -50,9 +54,9 @@ public interface ArticleDao{
     void addArticles(List<ArticleEntity> articles);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addItem(Item item);
+    void addItem(ItemEntity item);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addItems(List<Item> items);
+    void addItems(List<ItemEntity> items);
 
 
 
@@ -67,8 +71,8 @@ public interface ArticleDao{
     void updateArticles(List<ArticleEntity> articles);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateItem(Item item);
+    void updateItem(ItemEntity item);
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateItems(List<Item> items);
+    void updateItems(List<ItemEntity> items);
 
 }
