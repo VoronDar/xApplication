@@ -23,6 +23,12 @@ public class ItemEntity {
     private String parentId;
 
 
+    public ItemEntity(@NonNull String id, String text, String parentId) {
+        this.id = id;
+        this.text = text;
+        this.parentId = parentId;
+    }
+
     public String getText() {
         return text;
     }

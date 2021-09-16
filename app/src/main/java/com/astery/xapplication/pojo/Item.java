@@ -65,4 +65,10 @@ public class Item {
     public void setAdvises(List<Advise> advises) {
         this.advises = advises;
     }
+
+    public Item(String id, String text, String parentId) {
+        this.id = id;
+        this.text = text;
+        this.parentId = parentId;
+    }
 }
