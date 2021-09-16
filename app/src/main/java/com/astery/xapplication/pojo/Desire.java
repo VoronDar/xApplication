@@ -1,7 +1,11 @@
 package com.astery.xapplication.pojo;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
 
 import java.util.List;
 
@@ -9,12 +13,23 @@ import java.util.List;
  * used for cases when a user wants to do something and asks for advises.
  */
 @Entity
+@TypeConverters(ArrayConverter.class)
 public class Desire {
     @PrimaryKey
     private String id;
     private String text;
     private List<String> keyWords;
-    private List<String> questions;
+
+    @Ignore
+    private List<Question> questions;
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
 
     public String getId() {
         return id;
@@ -40,11 +55,4 @@ public class Desire {
         this.keyWords = keyWords;
     }
 
-    public List<String> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<String> questions) {
-        this.questions = questions;
-    }
 }

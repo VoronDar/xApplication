@@ -1,32 +1,24 @@
-package com.astery.xapplication.pojo;
+package com.astery.xapplication.pojo.only_for_db;
 
 import android.graphics.Bitmap;
 
-import androidx.room.Relation;
-
-import java.util.List;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 /**
  * one item in article
  * may has text, picture, and sets of advises.
  * */
-public class Item {
+@Entity
+public class ItemEntity {
+    @PrimaryKey
     private String id;
-
-    private Bitmap image;
     private String text;
+
+    @ColumnInfo(name = "parent_id")
     private String parentId;
-
-    @Relation(parentColumn = "id", entityColumn = "parent_id")
-    private List<Advise> advises;
-
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
 
 
     public String getText() {
@@ -51,13 +43,5 @@ public class Item {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
-    }
-
-    public List<Advise> getAdvises() {
-        return advises;
-    }
-
-    public void setAdvises(List<Advise> advises) {
-        this.advises = advises;
     }
 }

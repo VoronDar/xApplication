@@ -1,25 +1,24 @@
-package com.astery.xapplication.pojo;
+package com.astery.xapplication.pojo.only_for_db;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.Relation;
 import androidx.room.TypeConverters;
 
 import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
 
-import java.util.List;
-
 /**
  * narrow questions for desire and consequence that allow to know more
  * */
-public class Question {
+@Entity
+@TypeConverters(ArrayConverter.class)
+public class QuestionEntity {
+    @PrimaryKey
     private String id;
     private String text;
-    private String parentId;
 
-    @Relation(parentColumn = "id", entityColumn = "parent_id")
-    private List<Answer> answers;
+    @ColumnInfo(name="parent_id")
+    private String parentId;
 
     public String getId() {
         return id;
@@ -43,13 +42,5 @@ public class Question {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
     }
 }

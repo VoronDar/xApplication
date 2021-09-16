@@ -1,10 +1,12 @@
-package com.astery.xapplication.pojo;
+package com.astery.xapplication.pojo.only_for_db;
 
-import android.graphics.Bitmap;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
-import androidx.room.Relation;
-
-import com.astery.xapplication.pojo.only_for_db.ItemEntity;
+import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
+import com.astery.xapplication.data_source.local.database.converter.TimeStampConverter;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,9 +14,12 @@ import java.util.List;
 /**
  * the hugest thing. Has several items. Can be found in article pool.
  * */
-public class Article {
+@Entity
+@TypeConverters({ArrayConverter.class, TimeStampConverter.class})
+public class ArticleEntity {
+
+    @PrimaryKey
     private String id;
-    private Bitmap image;
 
     private String name;
     private String description;
@@ -24,21 +29,11 @@ public class Article {
 
     private Timestamp timestamp;
 
+    @ColumnInfo(name = "wide_tags")
     private List<String> wideTags;
+    @ColumnInfo(name = "closest_tags")
     private List<String> closestTags;
 
-    @Relation(parentColumn = "id", entityColumn = "parent_id")
-    private List<ItemEntity> itemsEntity;
-
-    private List<Item> items;
-
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
 
     public String getName() {
         return name;
@@ -110,13 +105,5 @@ public class Article {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public List<ItemEntity> getItemsEntity() {
-        return itemsEntity;
-    }
-
-    public void setItemsEntity(List<ItemEntity> items) {
-        this.itemsEntity = items;
     }
 }

@@ -22,6 +22,9 @@ public class Advise {
     private int type;
     private String text;
 
+    @ColumnInfo(name = "parent_id")
+    private String parentId;
+
 
     public String getText() {
         return text;
