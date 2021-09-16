@@ -22,7 +22,7 @@ public interface QuestionDao {
 
     /** get questions with their answers */
     @Query("SELECT * from questionentity WHERE parent_id = :parentId")
-    @Transaction
+    //@Transaction
     Single<List<Question>> getQuestions(String parentId);
 
 

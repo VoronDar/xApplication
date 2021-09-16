@@ -27,6 +27,29 @@ public class Advise {
     @ColumnInfo(name = "parent_id")
     private String parentId;
 
+    public Advise(@NonNull String id, int agreeCount, int disagreeCount, int type, String text, String parentId) {
+        this.id = id;
+        this.agreeCount = agreeCount;
+        this.disagreeCount = disagreeCount;
+        this.type = type;
+        this.text = text;
+        this.parentId = parentId;
+    }
+
+    public Advise() {
+    }
+
+    @Override
+    public String toString() {
+        return "Advise{" +
+                "id='" + id + '\'' +
+                ", agreeCount=" + agreeCount +
+                ", disagreeCount=" + disagreeCount +
+                ", type=" + type +
+                ", text='" + text + '\'' +
+                ", parentId='" + parentId + '\'' +
+                '}';
+    }
 
     public String getText() {
         return text;

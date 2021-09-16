@@ -23,6 +23,12 @@ public class Question {
     @Relation(parentColumn = "id", entityColumn = "parent_id")
     private List<Answer> answers;
 
+    public Question(String id, String text, String parentId) {
+        this.id = id;
+        this.text = text;
+        this.parentId = parentId;
+    }
+
     public String getId() {
         return id;
     }

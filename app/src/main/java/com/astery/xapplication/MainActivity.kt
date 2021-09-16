@@ -1,15 +1,21 @@
 package com.astery.xapplication
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
+import com.astery.xapplication.architecture.App
+import com.astery.xapplication.data_source.local.database.db_utils.LocalLoadable
 import com.astery.xapplication.databinding.ActivityMainBinding
+import com.astery.xapplication.pojo.Advise
+import com.astery.xapplication.pojo.Question
+import com.astery.xapplication.pojo.only_for_db.QuestionEntity
+import io.reactivex.observers.DisposableSingleObserver
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,10 +34,37 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+
+        // TODO make localDataSource private and delete it all
+        val localDataSource = (application as App).container.localDataSource;
+
+
+        localDataSource.loadQuestion(Question("12", "is it qorrect?", "123"), object: LocalLoadable{
+            override fun onCompleteListener() {
+                Log.i("main", "completed");
+            }
+
+            override fun onErrorListener() {
+                Log.i("main", "error");
+            }
+        })
+
+
         binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            //    .setAction("Action", null).show()
+            Log.i("main", "started");
+            localDataSource.getQuestions("123", object : DisposableSingleObserver<List<Question?>?>() {
+                override fun onSuccess(questions: List<Question?>) {
+                    Log.i("main", questions.toString())
+                }
+                override fun onError(e: Throwable) {
+                    Log.i("main", e.message.toString());
+                }
+            })
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

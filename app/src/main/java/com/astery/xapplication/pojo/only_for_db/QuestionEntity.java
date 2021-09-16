@@ -22,6 +22,12 @@ public class QuestionEntity {
     @ColumnInfo(name="parent_id")
     private String parentId;
 
+    public QuestionEntity(@NonNull String id, String text, String parentId) {
+        this.id = id;
+        this.text = text;
+        this.parentId = parentId;
+    }
+
     public String getId() {
         return id;
     }

@@ -32,7 +32,7 @@ public interface ArticleDao{
     Single<Article> getArticleById(String articleId);
 
     @Query("SELECT * from advise where parent_id = :parentId")
-    Single<Advise> getAdvisesForItem(String parentId);
+    Single<List<Advise>> getAdvisesForItem(String parentId);
 
 
     //
