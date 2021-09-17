@@ -37,14 +37,14 @@ abstract class AppDatabase : RoomDatabase() {
 
         val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DROP TABLE ArticleEntity");
-                database.execSQL("DROP TABLE ItemEntity");
-                database.execSQL("DROP TABLE QuestionEntity");
-                database.execSQL("DROP TABLE advise");
-                database.execSQL("DROP TABLE answer");
-                database.execSQL("DROP TABLE desire");
-                database.execSQL("DROP TABLE event");
-                database.execSQL("DROP TABLE eventTemplate");
+                //database.execSQL("DROP TABLE ArticleEntity");
+                //database.execSQL("DROP TABLE ItemEntity");
+                //database.execSQL("DROP TABLE QuestionEntity");
+                //database.execSQL("DROP TABLE advise");
+                //database.execSQL("DROP TABLE answer");
+                //database.execSQL("DROP TABLE desire");
+                //database.execSQL("DROP TABLE event");
+                //database.execSQL("DROP TABLE eventTemplate");
                 //database.execSQL("ALTER TABLE Employee ADD COLUMN birthday INTEGER DEFAULT 0 NOT NULL")
             }
         }
@@ -54,8 +54,8 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context,
                     AppDatabase::class.java,
-                    "app_database")
-                    .addMigrations(MIGRATION_1_2)
+                    "database_1")
+                    //.addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
 

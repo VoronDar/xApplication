@@ -17,6 +17,7 @@ import com.astery.xapplication.databinding.ActivityMainBinding
 import com.astery.xapplication.pojo.Advise
 import com.astery.xapplication.pojo.Question
 import com.astery.xapplication.pojo.only_for_db.QuestionEntity
+import com.astery.xapplication.repository.listeners.JobListener
 import io.reactivex.observers.DisposableSingleObserver
 
 class MainActivity : AppCompatActivity() {
@@ -37,26 +38,8 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-        binding.fab.setOnClickListener {
-            //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-            //    .setAction("Action", null).show()
-            Log.i("main", "started");
-        }
-
-
-        val remoteDataSource = (application as App).container.remoteDataSource
-        remoteDataSource.getAdvisesForParent("qweq123weqwe", object: RemoteListGettable<Advise>{
-            override fun getObjectClass(): Class<Advise> {
-                return Advise::class.java
-            }
-
-            override fun getResult(list: MutableList<Advise>?) {
-                Log.i("main", list.toString());
-            }
-
-            override fun getError(message: String?) {
-            }
-        })
+        val repository = (application as App).container.repository
+        repository.prepareData { success -> Log.i("main", "got result $success"); }
 
 
     }

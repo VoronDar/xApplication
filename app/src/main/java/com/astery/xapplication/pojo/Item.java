@@ -6,13 +6,15 @@ import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 import androidx.room.Relation;
 
+import com.astery.xapplication.data_source.remote.utils.FbUsable;
+
 import java.util.List;
 
 /**
  * one item in article
  * may has text, picture, and sets of advises.
  * */
-public class Item {
+public class Item implements FbUsable {
     private String id;
 
     @Ignore
@@ -36,6 +38,8 @@ public class Item {
         this.image = image;
     }
 
+    public Item() {
+    }
 
     public String getText() {
         return text;

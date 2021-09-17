@@ -25,6 +25,10 @@ public interface ArticleDao{
     @Transaction
     Single<Item> getItemById(String itemId);
 
+    @Query("SELECT * FROM itementity")
+    @Transaction
+    Single<List<Item>> getItems();
+
 
     /** return article with all of its items and advises */
     @Query("SELECT * FROM ArticleEntity WHERE id = :articleId")

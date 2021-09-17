@@ -3,6 +3,7 @@ package com.astery.xapplication.pojo;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.astery.xapplication.data_source.remote.utils.FbUsable;
@@ -31,6 +32,7 @@ public class Advise implements FbUsable {
     @ColumnInfo(name = "parent_id")
     private String parentId;
 
+    @Ignore
     public Advise() {
     }
 

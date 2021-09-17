@@ -5,11 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.astery.xapplication.data_source.remote.utils.FbUsable;
+
 /**
  * sets of answers to questions. If the user choose this answer and if it has an item - it will be shown to the user.
  * */
 @Entity
-public class Answer {
+public class Answer implements FbUsable {
     @NonNull
     @PrimaryKey
     private String id;

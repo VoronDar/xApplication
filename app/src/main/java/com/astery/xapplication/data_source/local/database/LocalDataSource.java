@@ -1,13 +1,20 @@
 package com.astery.xapplication.data_source.local.database;
 
+import android.util.Log;
+
 import com.astery.xapplication.data_source.local.database.db_utils.LocalLoadable;
+import com.astery.xapplication.data_source.remote.utils.FbUsable;
 import com.astery.xapplication.data_source.rx_utils.RxExecutable;
 import com.astery.xapplication.data_source.rx_utils.RxTaskManager;
+import com.astery.xapplication.pojo.Answer;
+import com.astery.xapplication.pojo.Category;
 import com.astery.xapplication.pojo.Item;
 import com.astery.xapplication.pojo.Question;
+import com.astery.xapplication.pojo.only_for_db.ItemEntity;
 import com.astery.xapplication.pojo.pojo_converters.ItemConverter;
 import com.astery.xapplication.pojo.pojo_converters.QuestionConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -34,6 +41,37 @@ public class LocalDataSource {
         subscribe(database.questionDao().getQuestions(parentId), observer);
     }
 
+    public <T> void getValues(DisposableSingleObserver<T> observer, String className){
+        switch (className){
+            case "Category":
+                subscribe((Single<T>)database.faqDao().getCategories(), observer);
+                break;
+            case "Item":
+                subscribe((Single<T>)database.articleDao().getItems(), observer);
+        }
+    }
+
+
+    /** load all values */
+    public <T> void loadValues(List<T> list, LocalLoadable loadable, String className){
+        RxTaskManager.doTask(new RxExecutable() {
+            @Override public void doSomething() {
+                switch (className){
+                    case "Category":
+                        database.faqDao().addCategories((List<Category>)list);
+                        break;
+                    case "Advise":
+                        database.questionDao().addAnswers((List<Answer>)list);
+                }}
+
+            @Override
+            public void onCompleteListener() { loadable.onCompleteListener(); }
+
+            @Override
+            public void onErrorListener() { loadable.onErrorListener(); }
+        });
+    }
+
 
 
     /** load questions (and theirs answers) */
@@ -52,6 +90,20 @@ public class LocalDataSource {
             public void onErrorListener() {
                 loadable.onErrorListener();
             }
+        });
+    }
+
+    /** load all categories */
+    public void loadCategories(List<Category> list, LocalLoadable loadable){
+        RxTaskManager.doTask(new RxExecutable() {
+            @Override
+            public void doSomething() { database.faqDao().addCategories(list); }
+
+            @Override
+            public void onCompleteListener() { loadable.onCompleteListener(); }
+
+            @Override
+            public void onErrorListener() { loadable.onErrorListener(); }
         });
     }
 

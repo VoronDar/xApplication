@@ -8,6 +8,8 @@ import java.util.List;
 public class ArrayConverter {
     @TypeConverter
     public String toDb(List<String> value) {
+        if (value == null)
+            return null;
         StringBuilder builder = new StringBuilder();
         for (String l : value) {
             builder.append(l).append(",");
@@ -17,6 +19,8 @@ public class ArrayConverter {
 
     @TypeConverter
     public List<String> toClass(String data) {
+        if (data == null)
+            return null;
         return Arrays.asList(data.split(","));
     }
 }
