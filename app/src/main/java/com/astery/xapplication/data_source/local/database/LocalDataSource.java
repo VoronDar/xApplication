@@ -22,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
+@SuppressWarnings("unchecked")
 public class LocalDataSource {
 
     private final AppDatabase database;
@@ -41,6 +42,20 @@ public class LocalDataSource {
         subscribe(database.questionDao().getQuestions(parentId), observer);
     }
 
+    /** get all questions (and their answers) for desire or consequence */
+    public <T> void getValuesWithParent(String parentId, DisposableSingleObserver<T> observer, String className){
+        switch (className){
+            case "Question":
+                subscribe((Single<T>)database.questionDao().getQuestions(parentId), observer);
+                break;
+            case "Item":
+                subscribe((Single<T>)database.articleDao().getItemsByParentId(parentId), observer);
+            default:
+                throw new RuntimeException("getValuesWithParent got a new class " + className);
+        }
+    }
+
+
     public <T> void getValues(DisposableSingleObserver<T> observer, String className){
         switch (className){
             case "Category":
@@ -48,6 +63,8 @@ public class LocalDataSource {
                 break;
             case "Item":
                 subscribe((Single<T>)database.articleDao().getItems(), observer);
+            default:
+                throw new RuntimeException("getValues got a new class " + className);
         }
     }
 
@@ -62,6 +79,10 @@ public class LocalDataSource {
                         break;
                     case "Advise":
                         database.questionDao().addAnswers((List<Answer>)list);
+                    case "Item":
+                        database.articleDao().addItems(ItemConverter.getEntities((List<Item>)list));
+                    default:
+                        throw new RuntimeException("loadValues got a new class " + className);
                 }}
 
             @Override
@@ -69,61 +90,6 @@ public class LocalDataSource {
 
             @Override
             public void onErrorListener() { loadable.onErrorListener(); }
-        });
-    }
-
-
-
-    /** load questions (and theirs answers) */
-    public void loadQuestion(Question question, LocalLoadable loadable){
-        RxTaskManager.doTask(new RxExecutable() {
-            @Override
-            public void doSomething() {
-                database.questionDao().addQuestion(QuestionConverter.getEntity(question));
-                database.questionDao().addAnswers(question.getAnswers());
-            }
-            @Override
-            public void onCompleteListener() {
-                loadable.onCompleteListener();
-            }
-            @Override
-            public void onErrorListener() {
-                loadable.onErrorListener();
-            }
-        });
-    }
-
-    /** load all categories */
-    public void loadCategories(List<Category> list, LocalLoadable loadable){
-        RxTaskManager.doTask(new RxExecutable() {
-            @Override
-            public void doSomething() { database.faqDao().addCategories(list); }
-
-            @Override
-            public void onCompleteListener() { loadable.onCompleteListener(); }
-
-            @Override
-            public void onErrorListener() { loadable.onErrorListener(); }
-        });
-    }
-
-
-    /** load questions (and theirs answers) */
-    public void loadItem(Item item, LocalLoadable loadable){
-        RxTaskManager.doTask(new RxExecutable() {
-            @Override
-            public void doSomething() {
-                database.articleDao().addItem(ItemConverter.getEntity(item));
-                database.articleDao().addAdvises(item.getAdvises());
-            }
-            @Override
-            public void onCompleteListener() {
-                loadable.onCompleteListener();
-            }
-            @Override
-            public void onErrorListener() {
-                loadable.onErrorListener();
-            }
         });
     }
 

@@ -7,6 +7,8 @@ import com.astery.xapplication.pojo.enums.EventCategory;
 public class EventCategoryConverter {
         @TypeConverter
         public int toDb(EventCategory value) {
+            if (value == null)
+                return EventCategory.FEELS.ordinal();
             return value.ordinal();
         }
 

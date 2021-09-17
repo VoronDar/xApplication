@@ -13,12 +13,15 @@ import org.json.JSONObject;
 public class WarningConditionConverter {
     @TypeConverter
     public String toDb(WarningTemplate.WarningCondition value) {
+        if (value == null)
+            return null;
         return new Gson().toJson(value);
 
     }
-
     @TypeConverter
     public WarningTemplate.WarningCondition toClass(String data) {
+        if (data == null)
+            return null;
         try {
             JSONObject obj = new JSONObject(data);
             return new Gson().fromJson(obj.toString(), WarningTemplate.WarningCondition.class);

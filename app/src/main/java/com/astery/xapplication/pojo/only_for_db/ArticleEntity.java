@@ -37,6 +37,18 @@ public class ArticleEntity {
     private List<String> keyWords;
 
 
+    public ArticleEntity(@NonNull String id, String name, String description, int likes, int dislikes, int watched, Timestamp timestamp, List<String> wideTags, List<String> keyWords) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.watched = watched;
+        this.timestamp = timestamp;
+        this.wideTags = wideTags;
+        this.keyWords = keyWords;
+    }
+
     public String getName() {
         return name;
     }

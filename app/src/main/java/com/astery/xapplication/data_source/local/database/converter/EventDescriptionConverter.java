@@ -14,6 +14,10 @@ public class EventDescriptionConverter {
 
     @TypeConverter
     public String toDb(EventDescription value) {
+        if (value == null)
+            return null;
+
+
         StringBuilder properties = new StringBuilder();
         for (String k : value.getProperties().keySet()) {
             properties.append(k).append("|").append(value.getProperties().get(k)).append("//");
@@ -23,6 +27,9 @@ public class EventDescriptionConverter {
 
     @TypeConverter
     public EventDescription toClass(String data) {
+        if (data == null)
+            return null;
+
         ArrayList<String> properties = new ArrayList<>();
         Collections.addAll(properties, data.split("//"));
 

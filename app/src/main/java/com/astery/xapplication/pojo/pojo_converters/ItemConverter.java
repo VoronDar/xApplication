@@ -5,6 +5,9 @@ import com.astery.xapplication.pojo.Question;
 import com.astery.xapplication.pojo.only_for_db.ItemEntity;
 import com.astery.xapplication.pojo.only_for_db.QuestionEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ItemConverter {
 
     /**
@@ -19,6 +22,14 @@ public class ItemConverter {
      * itemEntity has no information about children, so you should take them in other func */
     public static Item translateEntity(ItemEntity entity){
         return new Item(entity.getId(), entity.getText(), entity.getParentId());
+    }
+
+    public static List<ItemEntity> getEntities(List<Item> items){
+        List<ItemEntity> list = new ArrayList<>();
+        for (Item i : items){
+            list.add(getEntity(i));
+        }
+        return list;
     }
 
 

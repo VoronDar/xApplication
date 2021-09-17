@@ -25,6 +25,11 @@ public interface ArticleDao{
     @Transaction
     Single<Item> getItemById(String itemId);
 
+    /** return items with all of its advises */
+    @Query("SELECT * FROM itementity WHERE parent_id = :parentId")
+    @Transaction
+    Single<List<Item>> getItemsByParentId(String parentId);
+
     @Query("SELECT * FROM itementity")
     @Transaction
     Single<List<Item>> getItems();

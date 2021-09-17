@@ -8,6 +8,8 @@ import com.astery.xapplication.pojo.enums.EventCategory;
 public class AppearedConverter {
         @TypeConverter
         public int toDb(Appeared value) {
+            if (value == null)
+                return Appeared.PREPARED.ordinal();
             return value.ordinal();
         }
 
