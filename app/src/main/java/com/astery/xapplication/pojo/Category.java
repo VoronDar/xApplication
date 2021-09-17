@@ -1,8 +1,8 @@
 package com.astery.xapplication.pojo;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -10,36 +10,29 @@ import com.astery.xapplication.data_source.local.database.converter.ArrayConvert
 
 import java.util.List;
 
-/**
- * used for cases when a user completed something and looking for a feedback
- */
 @Entity
 @TypeConverters(ArrayConverter.class)
-public class Consequence {
+public class Category {
     @NonNull
     @PrimaryKey
     private String id;
+    private List<String> tags;
     private String text;
+
+    @ColumnInfo(name = "key_words")
     private List<String> keyWords;
+    @ColumnInfo(name = "parent_category_id")
+    private String parentCatId;
 
-    @Ignore
-    private List<Question> questions;
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
+    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
+
 
     public String getText() {
         return text;
@@ -57,4 +50,19 @@ public class Consequence {
         this.keyWords = keyWords;
     }
 
+    public String getParentCatId() {
+        return parentCatId;
+    }
+
+    public void setParentCatId(String parentCatId) {
+        this.parentCatId = parentCatId;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
 }

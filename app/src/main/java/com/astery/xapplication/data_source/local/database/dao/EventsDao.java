@@ -4,13 +4,15 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.astery.xapplication.pojo.Answer;
-import com.astery.xapplication.pojo.EventTemplate;
 import com.astery.xapplication.pojo.Desire;
+import com.astery.xapplication.pojo.Event;
+import com.astery.xapplication.pojo.EventTemplate;
 import com.astery.xapplication.pojo.Question;
+import com.astery.xapplication.pojo.Warning;
+import com.astery.xapplication.pojo.WarningTemplate;
 import com.astery.xapplication.pojo.only_for_db.QuestionEntity;
 
 import java.util.List;
@@ -18,55 +20,48 @@ import java.util.List;
 import io.reactivex.Single;
 
 @Dao
-public interface QuestionDao {
-
-    /** get questions with their answers */
-    @Query("SELECT * from questionentity WHERE parent_id = :parentId")
-    @Transaction
-    //@Transaction
-    Single<List<Question>> getQuestions(String parentId);
-
+public interface EventsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addAnswer(Answer answer);
+    void addEventTemplate(EventTemplate template);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addAnswers(List<Answer> answers);
+    void addEventTemplates(List<EventTemplate> templates);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addConsequence(EventTemplate eventTemplate);
+    void addEvent(Event event);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addConsequences(List<EventTemplate> eventTemplates);
+    void addEvents(List<Event> events);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addDesire(Desire desire);
+    void addWarningTemplate(WarningTemplate template);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addDesires(List<Desire> desires);
+    void addWarningTemplates(List<WarningTemplate> templates);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addQuestion(QuestionEntity question);
+    void addWarning(Warning warning);
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void addQuestions(List<QuestionEntity> questions);
+    void addWarnings(List<Warning> warning);
 
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateAnswer(Answer answer);
+    void updateEventTemplate(EventTemplate template);
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateAnswers(List<Answer> answers);
-
-
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateConsequence(EventTemplate eventTemplate);
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateConsequences(List<EventTemplate> eventTemplates);
+    void updateEventTemplates(List<EventTemplate> templates);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateDesire(Desire desire);
+    void updateEvent(Event event);
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateDesires(List<Desire> desires);
+    void updateEvents(List<Event> events);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateQuestion(QuestionEntity questions);
+    void updateWarningTemplate(WarningTemplate template);
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateQuestions(List<QuestionEntity> questions);
+    void updateWarningTemplates(List<WarningTemplate> templates);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    void updateWarning(Warning warning);
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    void updateWarnings(List<Warning> warning);
+
 
 }

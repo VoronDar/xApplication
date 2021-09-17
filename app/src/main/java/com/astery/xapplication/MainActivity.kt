@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         })
 
 
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             //    .setAction("Action", null).show()
             Log.i("main", "started");

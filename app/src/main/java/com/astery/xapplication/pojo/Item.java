@@ -22,6 +22,9 @@ public class Item {
     @ColumnInfo(name="parent_id")
     private String parentId;
 
+    @ColumnInfo(name = "category_id")
+    private String categoryId;
+
     @Relation(parentColumn = "id", entityColumn = "parent_id")
     private List<Advise> advises;
 
@@ -70,5 +73,13 @@ public class Item {
         this.id = id;
         this.text = text;
         this.parentId = parentId;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }

@@ -1,12 +1,15 @@
 package com.astery.xapplication.pojo;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -20,6 +23,8 @@ public class Desire {
     @PrimaryKey
     private String id;
     private String text;
+
+    @ColumnInfo(name = "key_words")
     private List<String> keyWords;
 
     @Ignore
@@ -33,11 +38,12 @@ public class Desire {
         this.questions = questions;
     }
 
+    @NotNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NotNull String id) {
         this.id = id;
     }
 

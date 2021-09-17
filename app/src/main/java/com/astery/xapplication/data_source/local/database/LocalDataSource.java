@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class LocalDataSource {
 
-    public final AppDatabase database;
+    private final AppDatabase database;
 
     public LocalDataSource(AppDatabase database) {
         this.database = database;
@@ -33,6 +33,8 @@ public class LocalDataSource {
     public void getQuestions(String parentId, DisposableSingleObserver<List<Question>> observer){
         subscribe(database.questionDao().getQuestions(parentId), observer);
     }
+
+
 
     /** load questions (and theirs answers) */
     public void loadQuestion(Question question, LocalLoadable loadable){

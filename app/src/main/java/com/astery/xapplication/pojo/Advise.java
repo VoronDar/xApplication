@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 /** simple item
  * just text like "don't forget to ues lubricant, count of people who agree or disagree with this advice"
  * */
@@ -36,9 +38,8 @@ public class Advise {
         this.parentId = parentId;
     }
 
-    public Advise() {
-    }
 
+    @NotNull
     @Override
     public String toString() {
         return "Advise{" +
@@ -83,11 +84,12 @@ public class Advise {
         this.type = type;
     }
 
+    @NotNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NotNull String id) {
         this.id = id;
     }
 

@@ -33,8 +33,8 @@ public class ArticleEntity {
 
     @ColumnInfo(name = "wide_tags")
     private List<String> wideTags;
-    @ColumnInfo(name = "closest_tags")
-    private List<String> closestTags;
+    @ColumnInfo(name = "key_words")
+    private List<String> keyWords;
 
 
     public String getName() {
@@ -85,12 +85,12 @@ public class ArticleEntity {
         this.wideTags = wideTags;
     }
 
-    public List<String> getClosestTags() {
-        return closestTags;
+    public List<String> getKeyWords() {
+        return keyWords;
     }
 
-    public void setClosestTags(List<String> closestTags) {
-        this.closestTags = closestTags;
+    public void setKeyWords(List<String> closestTags) {
+        this.keyWords = closestTags;
     }
 
     public String getId() {

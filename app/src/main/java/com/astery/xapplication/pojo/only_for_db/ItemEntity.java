@@ -1,12 +1,11 @@
 package com.astery.xapplication.pojo.only_for_db;
 
-import android.graphics.Bitmap;
-
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * one item in article
@@ -21,6 +20,9 @@ public class ItemEntity {
 
     @ColumnInfo(name = "parent_id")
     private String parentId;
+
+    @ColumnInfo(name = "category_id")
+    private String categoryId;
 
 
     public ItemEntity(@NonNull String id, String text, String parentId) {
@@ -37,11 +39,12 @@ public class ItemEntity {
         this.text = text;
     }
 
+    @NotNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NotNull String id) {
         this.id = id;
     }
 
@@ -51,5 +54,13 @@ public class ItemEntity {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }

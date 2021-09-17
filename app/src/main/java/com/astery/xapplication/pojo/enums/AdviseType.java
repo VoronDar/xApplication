@@ -1,4 +1,4 @@
-package com.astery.xapplication.pojo;
+package com.astery.xapplication.pojo.enums;
 
 /** consts for advises
  *
