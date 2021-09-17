@@ -5,6 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.astery.xapplication.data_source.remote.utils.FbUsable;
+
 import org.jetbrains.annotations.NotNull;
 
 /** simple item
@@ -12,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * */
 
 @Entity
-public class Advise {
+public class Advise implements FbUsable {
 
     @NonNull
     @PrimaryKey
@@ -29,6 +31,9 @@ public class Advise {
     @ColumnInfo(name = "parent_id")
     private String parentId;
 
+    public Advise() {
+    }
+
     public Advise(@NonNull String id, int agreeCount, int disagreeCount, int type, String text, String parentId) {
         this.id = id;
         this.agreeCount = agreeCount;
@@ -38,19 +43,6 @@ public class Advise {
         this.parentId = parentId;
     }
 
-
-    @NotNull
-    @Override
-    public String toString() {
-        return "Advise{" +
-                "id='" + id + '\'' +
-                ", agreeCount=" + agreeCount +
-                ", disagreeCount=" + disagreeCount +
-                ", type=" + type +
-                ", text='" + text + '\'' +
-                ", parentId='" + parentId + '\'' +
-                '}';
-    }
 
     public String getText() {
         return text;
@@ -99,5 +91,17 @@ public class Advise {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    @Override
+    public String toString() {
+        return "Advise{" +
+                "id='" + id + '\'' +
+                ", agreeCount=" + agreeCount +
+                ", disagreeCount=" + disagreeCount +
+                ", type=" + type +
+                ", text='" + text + '\'' +
+                ", parentId='" + parentId + '\'' +
+                '}';
     }
 }

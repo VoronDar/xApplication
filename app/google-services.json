@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "897262014137",
+    "firebase_url": "https://xapplication-3672c-default-rtdb.firebaseio.com",
+    "project_id": "xapplication-3672c",
+    "storage_bucket": "xapplication-3672c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897262014137:android:220310b0332c64a508d568",
+        "android_client_info": {
+          "package_name": "com.astery.xapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897262014137-r1o6i0n87qrc8dgigg870570pheb1266.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmikYdxxrhQXYNlieHFRB4w5_NyG5auH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897262014137-r1o6i0n87qrc8dgigg870570pheb1266.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

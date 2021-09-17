@@ -11,6 +11,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.astery.xapplication.architecture.App
 import com.astery.xapplication.data_source.local.database.db_utils.LocalLoadable
+import com.astery.xapplication.data_source.remote.listeners.RemoteListGettable
+import com.astery.xapplication.data_source.remote.utils.FbUsable
 import com.astery.xapplication.databinding.ActivityMainBinding
 import com.astery.xapplication.pojo.Advise
 import com.astery.xapplication.pojo.Question
@@ -35,34 +37,26 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
-        // TODO make localDataSource private and delete it all
-        val localDataSource = (application as App).container.localDataSource;
-
-
-        localDataSource.loadQuestion(Question("12", "is it qorrect?", "123"), object: LocalLoadable{
-            override fun onCompleteListener() {
-                Log.i("main", "completed");
-            }
-
-            override fun onErrorListener() {
-                Log.i("main", "error");
-            }
-        })
-
-
         binding.fab.setOnClickListener {
             //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
             //    .setAction("Action", null).show()
             Log.i("main", "started");
-            localDataSource.getQuestions("123", object : DisposableSingleObserver<List<Question?>?>() {
-                override fun onSuccess(questions: List<Question?>) {
-                    Log.i("main", questions.toString())
-                }
-                override fun onError(e: Throwable) {
-                    Log.i("main", e.message.toString());
-                }
-            })
         }
+
+
+        val remoteDataSource = (application as App).container.remoteDataSource
+        remoteDataSource.getAdvisesForParent("qweq123weqwe", object: RemoteListGettable<Advise>{
+            override fun getObjectClass(): Class<Advise> {
+                return Advise::class.java
+            }
+
+            override fun getResult(list: MutableList<Advise>?) {
+                Log.i("main", list.toString());
+            }
+
+            override fun getError(message: String?) {
+            }
+        })
 
 
     }
