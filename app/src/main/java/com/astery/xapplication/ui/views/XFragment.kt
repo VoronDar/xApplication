@@ -23,9 +23,6 @@ abstract class XFragment : Fragment() {
         _binding = null
     }
 
-    private fun setTransition(){
-    }
-
     /** set on click listener to this view that change fragments*/
     protected fun clickToMove(view: View, type: NavigationAction, bundle:Bundle?){
         view.setOnClickListener { (activity as ParentActivity).move(type, bundle)}

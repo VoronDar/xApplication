@@ -7,4 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="items_number">#F0EEFF</color>
+    <color name="article_text">#CC5E5C69</color>
+    <color name="important_article_text">#5E5C69</color>
+    <color name="more_info_text">#B3000000</color>
+
+
+    <color name="common_button_text">#3C6D5F</color>
+    <color name="ignore_button_text">#CC32583D</color>
+
+    <color name="divider_color">#BCCCED</color>
 </resources>
