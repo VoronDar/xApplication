@@ -19,4 +19,9 @@
     <color name="ignore_button_text">#CC32583D</color>
 
     <color name="divider_color">#BCCCED</color>
+    <color name="warning_advice"></color>
+    <color name="alert_advice">#CC45141A</color>
+    <color name="good_advice">#CC305A15</color>
+    <color name="new_advice"></color>
+    <color name="rape_advice"></color>
 </resources>

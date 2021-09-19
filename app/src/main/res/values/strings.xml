@@ -11,4 +11,12 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="item_image_CD">Decorating image for this page</string>
+    <string name="event_more_info">Give more info about this event:</string>
+    <string name="submit">Submit</string>
+    <string name="add_new_event_contratulation">You\'ve added a new event!</string>
+    <string name="well_done">Well done!</string>
+    <string name="ignore">Ignore</string>
 </resources>

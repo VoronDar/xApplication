@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginTop="20dp"
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText" >
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="7dp"
+            android:layout_gravity="top"
+            android:id = "@+id/advice_icon"
+            />
+
+        <TextView
+            android:id = "@+id/advice_text"
+            style="@style/advice"
+            android:textColor="@color/alert_advice"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text = "Havingasdasddasd"
+            />
+
+    <com.google.android.material.card.MaterialCardView
+        style = "@style/feetback_card"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/FeetbackText"
+                android:id = "@+id/dislikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center_vertical"
+                android:text = "12"/>
+            <View
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        style = "@style/feetback_card"
+        android:layout_marginLeft="8dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                style="@style/FeetbackText"
+                android:id = "@+id/likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center_vertical"
+                android:text = "13"/>
+            <View
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>

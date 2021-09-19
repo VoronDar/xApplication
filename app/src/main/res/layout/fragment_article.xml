@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_marginLeft="35dp"
+    android:layout_marginTop="35dp"
+    android:layout_height="match_parent"
+    tools:ignore="HardcodedText"
+    android:layout_marginStart="35dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"/>
+    <include layout="@layout/page_item"/>
+
+    <!-- remember to change height of item_image in article -->
+
+</LinearLayout>

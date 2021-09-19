@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText" >
+
+    <ImageView
+        android:id = "@+id/article_image"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:src = "@drawable/dating"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/item_image_CD" />
+    <TextView
+        style="@style/HighLightText"
+        android:id = "@+id/article_name"
+        android:layout_marginTop="30dp"
+        android:text = "Example highlight"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal">
+        
+        <com.google.android.material.card.MaterialCardView
+            style = "@style/feetback_card">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+            <TextView
+                style="@style/FeetbackText"
+                android:id = "@+id/watched"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="8dp"
+                android:layout_gravity="center_vertical"
+                android:text = "123"/>
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            style = "@style/feetback_card">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/FeetbackText"
+                    android:id = "@+id/dislikes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:text = "123"/>
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            style = "@style/feetback_card"
+            android:layout_marginLeft="8dp"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    style="@style/FeetbackText"
+                    android:id = "@+id/likes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center_vertical"
+                    android:text = "123"/>
+                <View
+                    android:layout_width="25dp"
+                    android:layout_height="25dp" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+    
+    <View
+        android:layout_marginTop="25dp"
+        style="@style/divider"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        />
+
+</LinearLayout>

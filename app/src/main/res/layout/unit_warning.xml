@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText" >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="7dp"
+            android:layout_gravity="top"
+            android:id = "@+id/advice_icon"
+            />
+
+    <TextView
+            android:id = "@+id/title"
+            style="@style/HighLightText"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text = "You rarely use contraception"
+            />
+
+        <View
+            android:id = "@+id/more_details"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id = "@+id/period"
+        android:layout_marginTop="5dp"
+        style="@style/MoreInfoText"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_width="match_parent"
+        android:text = "10 may - 30 june"
+        />
+
+    <TextView
+        android:id = "@+id/warning_content"
+        android:layout_marginTop="25dp"
+        style="@style/ArticleText"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="60dp"
+        android:layout_width="match_parent"
+        android:text = "Proper usage of contraception can reduce the chance of pregnancy to 0-2%. Condoms can defend you (or your partner) from infection. We stronhly recommend you to always use contraception."
+        />
+
+
+    <Button
+        android:id = "@+id/ignore_button"
+        style="@style/IgnoreButton"
+        android:text="@string/ignore"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="right"
+        />
+
+
+    <View
+        style="@style/divider"
+        android:layout_marginTop="20dp"
+        />
+
+
+</LinearLayout>

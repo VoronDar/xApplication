@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="30dp"
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText" >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:id = "@+id/question_number"
+        style="@style/RoundButtonClicked"
+        android:layout_gravity="center_vertical"
+        android:text = "1"
+        />
+
+    <TextView
+            android:id = "@+id/question"
+            style="@style/ImportantArticleText"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text = "Did you both want to have it?"
+            />
+
+        <View
+            android:id = "@+id/more_details"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_gravity="center_vertical"
+            />
+    </LinearLayout>
+
+    <TextView
+        android:id = "@+id/answer"
+        android:layout_marginTop="20dp"
+        style="@style/ImportantArticleText"
+        android:layout_gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="60dp"
+        android:layout_width="match_parent"
+        android:text = "My partner wanted it, but I didn't"
+        />
+
+    <View
+        style="@style/divider"
+        android:layout_marginTop="20dp"
+        />
+
+    <LinearLayout
+        android:id = "@+id/tip_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- you should place here advices -->
+
+</LinearLayout>
