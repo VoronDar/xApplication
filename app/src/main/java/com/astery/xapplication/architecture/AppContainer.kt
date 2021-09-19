@@ -18,6 +18,6 @@ class AppContainer(context: Context) {
 
     private var dataController = DataController(localDataSource, remoteDataSource, context)
 
-    var repository = Repository(localDataSource, remoteDataSource, dataController)
+    var repository = Repository(dataController)
 
 }

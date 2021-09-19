@@ -10,6 +10,7 @@ import androidx.room.TypeConverters;
 import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
 import com.astery.xapplication.data_source.remote.utils.FbUsable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,8 +30,20 @@ public class Category implements FbUsable {
     private String parentId;
 
     @Ignore
+    private List<Category> children;
+
+
+    @Ignore
     public Category() {
     }
+
+    @Ignore
+    public Category(@NonNull String id, String parentId) {
+        this.id = id;
+        this.parentId = parentId;
+    }
+
+
 
     public Category(@NonNull String id, List<String> tags, String text, List<String> keyWords, String parentId) {
         this.id = id;
@@ -82,6 +95,15 @@ public class Category implements FbUsable {
         this.tags = tags;
     }
 
+
+    public List<Category> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Category> children) {
+        this.children = children;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
@@ -91,5 +113,14 @@ public class Category implements FbUsable {
                 ", keyWords=" + keyWords +
                 ", parentId='" + parentId + '\'' +
                 '}';
+    }
+
+    /** test method */
+    public void getLink(StringBuilder collect, String came){
+        String father = came + id;
+        for (Category c: children){
+            collect.append(father).append(c.id).append("|");
+            c.getLink(collect, father);
+        }
     }
 }

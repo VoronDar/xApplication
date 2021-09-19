@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.XApplication">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.views.ThisActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.XApplication.NoActionBar">
             <intent-filter>

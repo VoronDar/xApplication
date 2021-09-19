@@ -42,6 +42,24 @@ public class Article {
     private List<Item> items;
 
 
+    @Ignore
+    public Article(){
+
+    }
+
+    public Article(String id, String name, String description, int likes, int dislikes, int watched, Timestamp timestamp, List<String> wideTags, List<String> keyWords) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.watched = watched;
+        this.timestamp = timestamp;
+        this.wideTags = wideTags;
+        this.keyWords = keyWords;
+    }
+
+    @Ignore
     public Article(String id, Bitmap image, String name, String description, int likes, int dislikes, int watched, Timestamp timestamp, List<String> wideTags, List<String> keyWords, List<ItemEntity> itemsEntity, List<Item> items) {
         this.id = id;
         this.image = image;

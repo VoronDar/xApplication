@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.astery.xapplication.ui.views.ThisActivity">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/bt_menu"
+        android:enabled="true"
+        android:title="asdasd"
+        android:icon="@drawable/common_google_signin_btn_icon_dark" />
 </menu>

@@ -15,13 +15,9 @@ import com.astery.xapplication.repository.listeners.JobListener;
 import java.util.List;
 
 public class Repository {
-    private final LocalDataSource localDataSource;
-    private final RemoteDataSource remoteDataSource;
     private final DataController dataController;
 
-    public Repository(LocalDataSource localDataSource, RemoteDataSource remoteDataSource, DataController dataController) {
-        this.localDataSource = localDataSource;
-        this.remoteDataSource = remoteDataSource;
+    public Repository(DataController dataController) {
         this.dataController = dataController;
     }
 
@@ -38,10 +34,28 @@ public class Repository {
             @Override public void error() { listener.done(false); }
         }, Category.class)));
 
-
-
         preparation.setParentListener(parentListener);
         preparation.work();
+    }
+
+    public void loadCategories(GetItemListener<List<Category>> listener){
+        dataController.getValuesFromLocal(
+                new GetItemListener<List<Category>>() {
+                    @Override public void getItem(List<Category> item) {
+                        listener.getItem(item);
+                    }
+                    @Override public void error() { listener.error(); }
+                }, Category.class);
+    }
+
+    public void loadItemsForCategory(GetItemListener<List<Item>> listener){
+        dataController.getValuesFromLocal(
+                new GetItemListener<List<Item>>() {
+                    @Override public void getItem(List<Item> item) {
+                        listener.getItem(item);
+                    }
+                    @Override public void error() { listener.error(); }
+                }, Item.class);
     }
 
 

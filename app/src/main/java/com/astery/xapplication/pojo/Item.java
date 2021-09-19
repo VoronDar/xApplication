@@ -38,6 +38,7 @@ public class Item implements FbUsable {
         this.image = image;
     }
 
+    @Ignore
     public Item() {
     }
 
