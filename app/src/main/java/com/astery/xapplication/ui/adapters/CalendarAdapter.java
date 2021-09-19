@@ -21,30 +21,37 @@ import static android.view.View.GONE;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder>{
 
-    private final ArrayList<DayUnit> units;
+    private ArrayList<DayUnit> units;
     private BlockListener blockListener;
-    private final Context context;
-    private final Calendar now;
+    private int selectedDateId;
 
-    private boolean isAvailable = true;
-
-    public CalendarAdapter(ArrayList<DayUnit> blocks, Context context) {
+    public CalendarAdapter(ArrayList<DayUnit> blocks) {
         this.units = blocks;
-        this.context = context;
-        now = Calendar.getInstance();
+        selectedDateId = 0;
+
     }
 
-    public boolean isNotAvailable() {
-        return !isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
+    public void setUnits(ArrayList<DayUnit> units) {
+        this.units = units;
+        selectedDateId = 0;
+        notifyDataSetChanged();
     }
 
     public void setBlockListener(BlockListener block_listener) {
         this.blockListener = block_listener;
     }
+
+    public void setSelectedDay(int day) {
+        for (int i = 0; i < units.size(); i++){
+            DayUnit unit = units.get(i);
+            if (unit.day == day){
+                selectedDateId = i;
+                notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
     public interface BlockListener {
         void onClick(int position);
     }
@@ -66,6 +73,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         if (!unit.enabled){
             holder.card.setVisibility(GONE);
         }
+
+        if (position == selectedDateId){
+            holder.day.setVisibility(GONE);
+        } else
+            holder.day.setVisibility(View.VISIBLE);
 
 
     }

@@ -1,20 +1,24 @@
 package com.astery.xapplication.pojo;
 
+import android.graphics.Bitmap;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
+import com.astery.xapplication.data_source.local.database.converter.DateConverter;
 import com.astery.xapplication.data_source.local.database.converter.EventDescriptionConverter;
-import com.astery.xapplication.data_source.local.database.converter.TimeStampConverter;
 import com.astery.xapplication.pojo.serialazable.EventDescription;
 
-import java.sql.Timestamp;
+import java.util.Date;
+
 
 @Entity
-@TypeConverters({ArrayConverter.class, TimeStampConverter.class, EventDescriptionConverter.class})
+@TypeConverters({ArrayConverter.class, DateConverter.class, EventDescriptionConverter.class})
 public class Event {
     @NonNull
     @PrimaryKey
@@ -26,7 +30,27 @@ public class Event {
     @ColumnInfo(name = "description")
     private EventDescription eventDescription;
 
-    private Timestamp date;
+    private Date date;
+
+    @Ignore
+    private Bitmap bitmap;
+
+    @Ignore
+    private EventTemplate template;
+
+
+    public Event() {
+    }
+
+    @Ignore
+    public Event(@NonNull String id, String templateId, EventDescription eventDescription, Date date) {
+        this.id = id;
+        this.templateId = templateId;
+        this.eventDescription = eventDescription;
+        this.date = date;
+    }
+
+
 
     @NonNull
     public String getId() {
@@ -53,12 +77,28 @@ public class Event {
         this.eventDescription = eventDescription;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    public EventTemplate getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(EventTemplate template) {
+        this.template = template;
     }
 }
 

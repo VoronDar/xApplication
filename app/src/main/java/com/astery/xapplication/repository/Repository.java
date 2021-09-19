@@ -8,14 +8,19 @@ import com.astery.xapplication.data_source.controller.DataController;
 import com.astery.xapplication.data_source.local.database.LocalDataSource;
 import com.astery.xapplication.data_source.remote.RemoteDataSource;
 import com.astery.xapplication.pojo.Category;
+import com.astery.xapplication.pojo.Event;
 import com.astery.xapplication.pojo.Item;
 import com.astery.xapplication.repository.listeners.GetItemListener;
 import com.astery.xapplication.repository.listeners.JobListener;
+import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Repository {
-    private final DataController dataController;
+    public final DataController dataController;
 
     public Repository(DataController dataController) {
         this.dataController = dataController;
@@ -56,6 +61,19 @@ public class Repository {
                     }
                     @Override public void error() { listener.error(); }
                 }, Item.class);
+    }
+
+    public void loadEvents(Calendar calendar, GetItemListener<List<Event>> itemListener){
+        Date date = calendar.getTime();
+        Log.i("main", date.getTime() + "");
+        dataController.getValuesFromLocalByDay(itemListener, date, Event.class);
+    }
+
+    public void addEvent(Event event, JobListener listener){
+        ArrayList<Event> events = new ArrayList<>();
+        events.add(event);
+        Log.i("main", event.getDate().getTime() + "");
+        dataController.pushDataToLocal(events, listener, Event.class);
     }
 
 

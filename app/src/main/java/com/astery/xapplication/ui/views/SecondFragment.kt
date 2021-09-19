@@ -25,9 +25,9 @@ class SecondFragment : XFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (arguments != null){
-            (binding as FragmentSecondBinding).textviewSecond.text = requireArguments().getString("id")
-        }
+        //if (arguments != null){
+        //    (binding as FragmentSecondBinding).textviewSecond.text = requireArguments().getString("id")
+        //}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

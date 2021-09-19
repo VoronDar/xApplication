@@ -14,7 +14,7 @@ public class EventDescriptionConverter {
 
     @TypeConverter
     public String toDb(EventDescription value) {
-        if (value == null)
+        if (value == null || value.getProperties() == null)
             return null;
 
 

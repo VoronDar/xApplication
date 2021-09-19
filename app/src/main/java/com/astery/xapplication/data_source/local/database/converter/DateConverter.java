@@ -2,16 +2,17 @@ package com.astery.xapplication.data_source.local.database.converter;
 
 import androidx.room.TypeConverter;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-public class TimeStampConverter {
+
+public class DateConverter {
     @TypeConverter
-    public long toDb(Timestamp value) {
+    public long toDb(Date value) {
         return value.getTime();
     }
 
     @TypeConverter
-    public Timestamp toClass(long data) {
-        return new Timestamp(data);
+    public Date toClass(long data) {
+        return new Date(data);
     }
 }

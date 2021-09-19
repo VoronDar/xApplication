@@ -19,4 +19,19 @@
     <string name="add_new_event_contratulation">You\'ve added a new event!</string>
     <string name="well_done">Well done!</string>
     <string name="ignore">Ignore</string>
+
+    <string name="calendar_date">%d %s, %d</string>
+
+    <string name="calendar_january">January</string>
+    <string name="calendar_february">February</string>
+    <string name="calendar_march">March</string>
+    <string name="calendar_april">April</string>
+    <string name="calendar_may">May</string>
+    <string name="calendar_june">June</string>
+    <string name="calendar_july">July</string>
+    <string name="calendar_august">August</string>
+    <string name="calendar_september">September</string>
+    <string name="calendar_october">October</string>
+    <string name="calendar_november">November</string>
+    <string name="calendar_december">December</string>
 </resources>

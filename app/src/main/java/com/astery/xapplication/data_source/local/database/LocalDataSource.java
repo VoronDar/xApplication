@@ -8,6 +8,7 @@ import com.astery.xapplication.data_source.rx_utils.RxExecutable;
 import com.astery.xapplication.data_source.rx_utils.RxTaskManager;
 import com.astery.xapplication.pojo.Answer;
 import com.astery.xapplication.pojo.Category;
+import com.astery.xapplication.pojo.Event;
 import com.astery.xapplication.pojo.Item;
 import com.astery.xapplication.pojo.Question;
 import com.astery.xapplication.pojo.only_for_db.ItemEntity;
@@ -15,6 +16,7 @@ import com.astery.xapplication.pojo.pojo_converters.ItemConverter;
 import com.astery.xapplication.pojo.pojo_converters.QuestionConverter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Single;
@@ -42,7 +44,6 @@ public class LocalDataSource {
         subscribe(database.questionDao().getQuestions(parentId), observer);
     }
 
-    /** get all questions (and their answers) for desire or consequence */
     public <T> void getValuesWithParent(String parentId, DisposableSingleObserver<T> observer, String className){
         switch (className){
             case "Question":
@@ -50,6 +51,17 @@ public class LocalDataSource {
                 break;
             case "Item":
                 subscribe((Single<T>)database.articleDao().getItemsByParentId(parentId), observer);
+                break;
+            default:
+                throw new RuntimeException("getValuesWithParent got a new class " + className);
+        }
+    }
+
+    public <T> void getValuesByDate(DisposableSingleObserver<T> observer, Date date, String className){
+        switch (className){
+            case "Event":
+                subscribe((Single<T>)database.eventDao().getEventsByTime(date.getTime()), observer);
+                break;
             default:
                 throw new RuntimeException("getValuesWithParent got a new class " + className);
         }
@@ -63,6 +75,7 @@ public class LocalDataSource {
                 break;
             case "Item":
                 subscribe((Single<T>)database.articleDao().getItems(), observer);
+                break;
             default:
                 throw new RuntimeException("getValues got a new class " + className);
         }
@@ -79,8 +92,13 @@ public class LocalDataSource {
                         break;
                     case "Advise":
                         database.questionDao().addAnswers((List<Answer>)list);
+                        break;
                     case "Item":
                         database.articleDao().addItems(ItemConverter.getEntities((List<Item>)list));
+                        break;
+                    case "Event":
+                        database.eventDao().addEvents((List<Event>)list);
+                        break;
                     default:
                         throw new RuntimeException("loadValues got a new class " + className);
                 }}
