@@ -27,6 +27,10 @@ public interface EventsDao {
 
     @Query("SELECT * FROM event WHERE date = :time")
     Single<List<Event>> getEventsByTime(long time);
+    @Query("SELECT * FROM eventtemplate WHERE id = :id")
+    Single<EventTemplate> getEventTemplate(String id);
+    @Query("SELECT * FROM event WHERE id = :id")
+    Single<Event> getEvent(String id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addEventTemplate(EventTemplate template);

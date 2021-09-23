@@ -6,5 +6,5 @@ import android.os.Bundle
  *
  * */
 interface ParentActivity {
-    fun move(action: NavigationAction, bundle: Bundle?)
+    fun move(action: FragmentNavController, bundle: Bundle?)
 }

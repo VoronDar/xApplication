@@ -3,10 +3,8 @@ package com.astery.xapplication.data_source.remote;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-
-import com.astery.xapplication.data_source.remote.listeners.RemoteListGettable;
-import com.astery.xapplication.data_source.remote.listeners.RemoteOneGettable;
 import com.astery.xapplication.data_source.remote.utils.FbUsable;
+import com.astery.xapplication.repository.listeners.GetItemListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,28 +28,30 @@ public class RemoteDataSource {
 
 
 
-    public <T> void getValuesWithParent(String parentId, RemoteListGettable<T> listener){
-        String tableName = FbConverter.getTableName(listener.getObjectClass().getSimpleName());
+    public <T> void getValuesWithParent(String parentId, GetItemListener<List<T>> listener, Class<T> className){
+        String tableName = FbConverter.getTableName(className.getSimpleName());
         getData(database.collection(tableName).whereEqualTo("parentId", parentId).get(),
-                listener, tableName);
+                listener, tableName, className);
     }
 
-    public <T> void getValues(RemoteListGettable<T> listener) {
-        getAllData(listener, FbConverter.getTableName(listener.getObjectClass().getSimpleName()));
+    public <T> void getValues(GetItemListener<List<T>> listener, Class<T> className) {
+        getAllData(listener, FbConverter.getTableName(className.getSimpleName()), className);
     }
 
-    public <T> void getAllData(RemoteListGettable<T> loadable, String collectionName) {
-        getData(database.collection(collectionName).get(), loadable, collectionName);
+    public <T> void getAllData(GetItemListener<List<T>> loadable, String collectionName, Class<T> className) {
+        getData(database.collection(collectionName).get(), loadable, collectionName, className);
     }
 
-    public <T> void getDataById(RemoteOneGettable<T> loadable, String collectionName, String id) {
-        getData(database.collection(collectionName).document(id).get(), loadable, collectionName);
+    public <T> void getDataById(GetItemListener<T> loadable, String collectionName, String id, Class<T> className) {
+        getOneData(database.collection(FbConverter.getTableName(collectionName)).document(id).get(),
+                loadable, FbConverter.getTableName(collectionName), className);
     }
 
 
 
 
-    private <T> void getData(Task<QuerySnapshot> fbTask, RemoteListGettable<T> loadable, String collectionName) {
+    private <T> void getData(Task<QuerySnapshot> fbTask, GetItemListener<List<T>> loadable, String collectionName, Class<T> className) {
+
         fbTask.addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();
@@ -61,28 +61,29 @@ public class RemoteDataSource {
                 }
                 List<T> list = new ArrayList<>();
                 for (QueryDocumentSnapshot document : snapshot) {
-                    list.add(document.toObject(loadable.getObjectClass()));
-                    ((FbUsable) list.get(list.size() - 1)).setId(document.getId());
+                    list.add((T) document.toObject(className));
+                    ((FbUsable)list.get(list.size() - 1)).setId(document.getId());
                 }
-                loadable.getResult(list);
+                loadable.getItem(list);
 
             } else {
                 Log.i(LOG, "from " + collectionName + " get unSuccessful task");
             }
         })
                 .addOnFailureListener(e -> {
-                    loadable.getError(e.getMessage());
+                    loadable.error();
                     Log.i(LOG, "while getting from " + collectionName + " got an error " + e.getMessage());
                 });
     }
 
-    private <T> void getData(Task<DocumentSnapshot> fbTask, RemoteOneGettable<T> loadable, String collectionName) {
+    private <T> void getOneData(Task<DocumentSnapshot> fbTask, GetItemListener<T> loadable, String collectionName, Class<T> className) {
         fbTask.addOnCompleteListener(task -> {
             if (task.getResult() != null) {
+
                 @NonNull T object = Objects.requireNonNull(
-                        task.getResult().toObject(loadable.getObjectClass()));
+                        task.getResult().toObject(className));
                 ((FbUsable) object).setId(task.getResult().getId());
-                loadable.getResult(object);
+                loadable.getItem(object);
             }
         }).addOnFailureListener(e ->
                 Log.i(LOG, "while getting element from " + collectionName + " got an error " + e.getMessage()));

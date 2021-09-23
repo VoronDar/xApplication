@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
@@ -16,7 +18,7 @@ import com.astery.xapplication.pojo.Event
 import com.astery.xapplication.ui.adapters.CalendarAdapter
 import com.astery.xapplication.ui.adapters.EventAdapter
 import com.astery.xapplication.ui.adapters.units.DayUnit
-import com.astery.xapplication.ui.navigation.NavigationAction
+import com.astery.xapplication.ui.navigation.FragmentNavController
 import com.astery.xapplication.ui.viewmodels.CalendarViewModel
 import com.google.android.material.transition.MaterialSharedAxis
 import java.util.*
@@ -26,7 +28,7 @@ class CalendarFragment : XFragment() {
 
     private lateinit var thisBinding:FragmentCalendarBinding
 
-    private val viewModel: CalendarViewModel by activityViewModels()
+    private val viewModel: CalendarViewModel by viewModels()
     private lateinit var cAdapter: CalendarAdapter
     private lateinit var eAdapter: EventAdapter
 
@@ -42,50 +44,45 @@ class CalendarFragment : XFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         prepareAdapters()
         setViewModelListeners(viewModel)
         setListeners()
 
-        //clickToMove(thisBinding.firstButton, NavigationAction.ADD_EVENT, null);
-
-
-        //val bundle = Bundle()
-        //bundle.putString("id", "23123")
-        //clickToMove(thisBinding.firstButton, NavigationAction.ADD_EVENT, bundle);
-
-
     }
 
+    /** set on click listeners*/
     private fun setListeners(){
         thisBinding.backIcon.setOnClickListener { changeEventPresent(false) }
     }
 
+
+    /** prepare recyclerviews and adapters to view */
     private fun prepareAdapters(){
+
+        // days
         val units = getDayUnitList();
         cAdapter = CalendarAdapter(units)
-
         cAdapter.notifyDataSetChanged()
         cAdapter.setBlockListener { position ->
             viewModel.changeDay(units[position].day)
-            //adapter.setUnits(getDayUnitList())
         }
+
 
         thisBinding.recyclerView.adapter = cAdapter
         thisBinding.recyclerView.layoutManager =
             GridLayoutManager(requireContext(), 7, RecyclerView.HORIZONTAL, false)
 
 
+        // events for one day
         eAdapter = EventAdapter(null, context);
         eAdapter.notifyDataSetChanged()
         eAdapter.setBlockListener { position ->
             if (position == 0)
-                getPreparedToMoveListener(NavigationAction.ADD_EVENT, null).success()
+                getPreparedToMoveListener(FragmentNavController.ADD_EVENT, null).done(true)
             else {
                 viewModel.selectedEvent.value = position;
                 changeEventPresent(true);
             }
-            //adapter.setUnits(getDayUnitList())
         }
 
         thisBinding.eventRecycler.adapter = eAdapter
@@ -94,29 +91,27 @@ class CalendarFragment : XFragment() {
 
     }
 
+    /** set listeners to view's item*/
     private fun setViewModelListeners(viewModel: CalendarViewModel) {
 
-        viewModel.setRepository((requireActivity().application as App).container.repository)
+        viewModel.repository = (requireActivity().application as App).container.repository
 
         viewModel.selectedDay.observe(viewLifecycleOwner, {
             thisBinding.date.text = getString(R.string.calendar_date, it.get(Calendar.DAY_OF_MONTH),
                 viewModel.getMonth(it.get(Calendar.MONTH), context), it.get(Calendar.YEAR))
             cAdapter.setSelectedDay(it.get(Calendar.DAY_OF_MONTH))
-            viewModel.updateEvents();
+            viewModel.updateEvents()
 
         })
 
         viewModel.events.observe(viewLifecycleOwner,{
-            Log.i("main", it.toString());
             eAdapter.setUnits(it as java.util.ArrayList<Event>?)
         })
     }
 
+    /** get units for calendar */
     private fun getDayUnitList(): ArrayList<DayUnit>{
         val units = ArrayList<DayUnit>();
-
-
-
         val cal:Calendar = viewModel.selectedDay.value!!
         for (i in 1..cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
             units.add(DayUnit(i, true))
@@ -129,21 +124,52 @@ class CalendarFragment : XFragment() {
 
         return units;
     }
+
+    /** open or close event */
     private fun changeEventPresent(isOpen: Boolean){
+        //clickToMove(thisBinding.eventContent.getATip, NavigationAction.GET_A_TIP, );
+
+
         if (isOpen){
-            val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+            viewModel.getTemplate { success ->
+                if (success) {
 
-            TransitionManager.beginDelayedTransition(thisBinding.fragmentRoot, sharedAxis)
+                    val event =viewModel.events.value?.get(viewModel.selectedEvent.value!!)!!
 
-            thisBinding.eventRecycler.visibility = View.GONE
-            thisBinding.eventContainer.visibility =  View.VISIBLE
+                    Log.i("main", event.toString())
 
-            thisBinding.backIcon.visibility = View.VISIBLE;
+                    thisBinding.eventContent.eventName.text =
+                       event.template.name
 
 
-            //thisBinding.eventContent.itemImage.setImageDrawable()
-            thisBinding.eventContent.eventName.text = viewModel.events.value?.get(viewModel.selectedEvent.value!!)!!.id
+                    thisBinding.eventContent.eventDescription.text = event.template.description;
 
+                    var properties = "";
+                    if (event.eventDescription != null)
+                        for (i in event.template.questions){
+                            properties += i.selectedAnswer.text + "\n\n";
+                        }
+
+                    thisBinding.eventContent.eventProperties.text = properties;
+
+                    if (event.isTips)
+                        thisBinding.eventContent.getATip.visibility = VISIBLE
+                    else
+                        thisBinding.eventContent.getATip.visibility = GONE
+
+
+
+                    val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+
+                    TransitionManager.beginDelayedTransition(thisBinding.fragmentRoot, sharedAxis)
+
+
+                    thisBinding.eventRecycler.visibility = View.GONE
+                    thisBinding.eventContainer.visibility = View.VISIBLE
+
+                    thisBinding.backIcon.visibility = View.VISIBLE;
+                }
+            };
 
 
         } else{

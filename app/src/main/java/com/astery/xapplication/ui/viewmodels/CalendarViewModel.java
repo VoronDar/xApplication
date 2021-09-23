@@ -8,17 +8,19 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.astery.xapplication.R;
-import com.astery.xapplication.data_source.remote.listeners.RemoteOneGettable;
+import com.astery.xapplication.pojo.Answer;
 import com.astery.xapplication.pojo.Event;
-import com.astery.xapplication.pojo.EventTemplate;
 import com.astery.xapplication.pojo.serialazable.EventDescription;
 import com.astery.xapplication.repository.Repository;
 import com.astery.xapplication.repository.listeners.GetItemListener;
+import com.astery.xapplication.repository.listeners.JobListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("ConstantConditions")
 public class CalendarViewModel extends ViewModel {
@@ -43,6 +45,8 @@ public class CalendarViewModel extends ViewModel {
         return repository;
     }
 
+
+
     public CalendarViewModel() {
         super();
 
@@ -52,28 +56,42 @@ public class CalendarViewModel extends ViewModel {
         selectedEvent = new MutableLiveData<>();
     }
 
-    public Calendar clean(Calendar cal){
+    /** prepare calendar to be converted to date to be converted to long in sql*/
+    private Calendar clean(Calendar cal){
         cal.set(Calendar.HOUR_OF_DAY, cal.getActualMinimum(Calendar.HOUR_OF_DAY));
         cal.set(Calendar.MINUTE, cal.getActualMinimum(Calendar.MINUTE));
         cal.set(Calendar.SECOND, cal.getActualMinimum(Calendar.SECOND));
         cal.set(Calendar.MILLISECOND, cal.getActualMinimum(Calendar.MILLISECOND));
         return cal;
-        //calendar.set(Calendar.SECOND, 0);
-        //calendar.set(Calendar.MILLISECOND, 0);
     }
 
     public void setRepository(Repository repository) {
         this.repository = repository;
 
+        // TODO remove these items
        repository.addEvent(new Event("13", "t", new EventDescription(null), selectedDay.getValue().getTime()),
                 success -> Log.i("main", success + " done"));
         repository.addEvent(new Event("123", "t", new EventDescription(null), selectedDay.getValue().getTime()),
                 success -> Log.i("main", success + " done"));
         repository.addEvent(new Event("111", "t", new EventDescription(null), selectedDay.getValue().getTime()),
                 success -> Log.i("main", success + " done"));
-        repository.addEvent(new Event("1123", "t", new EventDescription(null), selectedDay.getValue().getTime()),
+
+
+        Map<String, String> properties = new HashMap<>();
+        properties.put("value", "ad");
+        properties.put("value2", "ad2");
+
+        repository.addEvent(new Event("1123", "t", new EventDescription(properties), selectedDay.getValue().getTime()),
                 success -> Log.i("main", success + " done"));
+
+        List<Answer> answers = new ArrayList<>();
+        answers.add(new Answer("ad", "asdasdasd", "1", "qweqwe"));
+        answers.add(new Answer("ad2", "22222", "2", "qweqwe"));
+
+        repository.dataController.pushDataToLocal(answers, success -> Log.i("main", "answer done " + success), Answer.class);
+
     }
+
 
     /** change current date if the user changes month */
     public void changeMonth(boolean isMore){
@@ -104,6 +122,7 @@ public class CalendarViewModel extends ViewModel {
                 selectedDay.getValue().get(Calendar.MONTH), day));
     }
 
+    /** get events for this day */
     public void updateEvents(){
         repository.loadEvents(selectedDay.getValue(), new GetItemListener<List<Event>>() {
             @Override
@@ -118,31 +137,23 @@ public class CalendarViewModel extends ViewModel {
         });
     }
 
-    public void getTemplate(){
+    /** get eventTemplate for this event */
+    public void getTemplate(JobListener listener){
         Event event = events.getValue().get(selectedEvent.getValue());
-        repository.dataController.getValuesFromRemoteById(new RemoteOneGettable<EventTemplate>(){
-            @Override
-            public Class<EventTemplate> getObjectClass() {
-                return EventTemplate.class;
-            }
 
-            @Override
-            public void getResult(EventTemplate item) {
-                event.setTemplate(item);
-            }
+        if (event.getTemplate() != null)
+            listener.done(true);
 
-            @Override
-            public void getError(String message) {
-            }
-        }, event.getTemplateId());
+        repository.getEventInfo(event, listener);
     }
 
+    /** add empty unit in events list (it used for adding more events) */
     private List<Event> addFirstItem(List<Event> units){
         units.add(0, null);
         return units;
     }
 
-    /** convert Calendar.get(MONTH) to String*/
+    /** convert Calendar.get(MONTH) to String */
     public String getMonth(int calendar, Context context){
         switch (calendar){
             case Calendar.JANUARY:

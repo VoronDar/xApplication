@@ -14,6 +14,8 @@ import com.astery.xapplication.data_source.local.database.converter.DateConverte
 import com.astery.xapplication.data_source.local.database.converter.EventDescriptionConverter;
 import com.astery.xapplication.pojo.serialazable.EventDescription;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Date;
 
 
@@ -99,6 +101,30 @@ public class Event {
 
     public void setTemplate(EventTemplate template) {
         this.template = template;
+    }
+
+    public boolean isTips(){
+        if (template == null || template.getQuestions() == null)
+            return false;
+        for (Question question: template.getQuestions()){
+            if (question.getSelectedAnswer().getItemOb() == null) continue;
+            return true;
+        }
+        return false;
+    }
+
+
+    @NotNull
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id='" + id + '\'' +
+                ", templateId='" + templateId + '\'' +
+                ", eventDescription=" + eventDescription +
+                ", date=" + date +
+                ", bitmap=" + bitmap +
+                ", template=" + template +
+                '}';
     }
 }
 

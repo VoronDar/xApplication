@@ -9,7 +9,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.astery.xapplication.R
 import com.astery.xapplication.databinding.ActivityMainBinding
 import com.astery.xapplication.ui.navigation.FragmentNavController
-import com.astery.xapplication.ui.navigation.NavigationAction
 import com.astery.xapplication.ui.navigation.ParentActivity
 
 class ThisActivity : AppCompatActivity(), ParentActivity {
@@ -36,7 +35,7 @@ class ThisActivity : AppCompatActivity(), ParentActivity {
     }
 
     private fun pushFragment(){
-        navController = FragmentNavController.CALENDAR_FR
+        navController = FragmentNavController.CALENDAR
         currentFragment = navController.thisFragment
 
         fragmentManager = supportFragmentManager;
@@ -45,13 +44,13 @@ class ThisActivity : AppCompatActivity(), ParentActivity {
         ft.commit();
     }
 
-    override fun move(action: NavigationAction, bundle: Bundle?) {
-        navController = navController.getNextFragment(action);
+    override fun move(action: FragmentNavController, bundle: Bundle?) {
+        navController = action;
         val newFragment = navController.thisFragment
         newFragment.arguments = bundle
 
-        currentFragment.setTransition(action.transition)
-        newFragment.setTransition(action.transition.reverseCopy())
+        currentFragment.setTransition(navController.transition)
+        newFragment.setTransition(navController.transition.reverseCopy())
 
         val ft = fragmentManager.beginTransaction();
         ft.replace(R.id.hostFragment, newFragment);

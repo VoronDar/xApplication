@@ -20,6 +20,7 @@ public class Item implements FbUsable {
     @Ignore
     private Bitmap image;
     private String text;
+    private String name;
 
     @ColumnInfo(name="parent_id")
     private String parentId;
@@ -86,5 +87,26 @@ public class Item implements FbUsable {
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", image=" + image +
+                ", text='" + text + '\'' +
+                ", name='" + name + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                ", advises=" + advises +
+                '}';
     }
 }

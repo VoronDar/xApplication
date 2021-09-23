@@ -5,12 +5,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.astery.xapplication.R;
 import com.astery.xapplication.data_source.local.database.LocalDataSource;
 import com.astery.xapplication.data_source.local.database.db_utils.LocalLoadable;
 import com.astery.xapplication.data_source.remote.RemoteDataSource;
-import com.astery.xapplication.data_source.remote.listeners.RemoteListGettable;
-import com.astery.xapplication.data_source.remote.listeners.RemoteOneGettable;
-import com.astery.xapplication.pojo.EventTemplate;
 import com.astery.xapplication.repository.listeners.GetItemListener;
 import com.astery.xapplication.repository.listeners.JobListener;
 
@@ -21,7 +19,6 @@ import java.util.List;
 
 import io.reactivex.observers.DisposableSingleObserver;
 
-@SuppressWarnings("unchecked")
 public class DataController {
     private final LocalDataSource localDataSource;
     private final RemoteDataSource remoteDataSource;
@@ -37,32 +34,68 @@ public class DataController {
     public <T> void loadValuesFromRemote(JobListener listener, Class<T> className){
         if (connected()){
             Log.i("main", "get from remote");
-            remoteDataSource.getValues(new RemoteListGettable<T>() {
-                @Override public Class<T> getObjectClass() { return className; }
-                @Override public void getResult(List<T> list) { pushDataToLocal(list, listener,className); }
-                @Override public void getError(String message) { listener.done(false); }
-            });
+            remoteDataSource.getValues(new GetItemListener<List<T>>() {
+                @Override public void getItem(List<T> list) { pushDataToLocal(list, listener,className); }
+                @Override public void error() { listener.done(false); }
+            }, className);
         } else{ listener.done(false); }
     }
 
-    /** load from remote, push to local, get to the client*/
-    public <T> void getValuesFromRemote(GetItemListener<T> listener, Class<T> className){
-        if (connected()){
-            remoteDataSource.getValues(new RemoteListGettable<T>() {
-                @Override public Class<T> getObjectClass() { return className; }
-                @Override public void getResult(List<T> list) { pushDataToLocal(list, success -> listener.getItem((T) list) ,className); }
-                @Override public void getError(String message) { listener.error();}
-            });
-        } else{ listener.error();}
+    /** load from remote, push to local, if it is not in remote - get from local, than get to the client*/
+    public <T> void getValuesFromRemoteById(GetItemListener<T> listener, String id, Class<T> className) {
+        if (connected()) {
+            remoteDataSource.getDataById(new GetItemListener<T>() {
+                @Override public void getItem(T item) {
+                    if (item != null) {
+                        localDataSource.loadValue(item, null, className.getSimpleName());
+                        listener.getItem(item);
+                    } else { getValuesFromLocalById(listener, id, className); }
+                }
+                @Override public void error() { getValuesFromLocalById(listener, id, className); }
+                }, className.getSimpleName(), id, className);
+        } else {
+            listener.error();
+            getValuesFromLocalById(listener, id, className);
+        }
     }
 
-    /** load from remote, push to local, get to the client*/
-    public <T> void getValuesFromRemoteById(RemoteOneGettable<T> listener, String id){
-        if (connected()) {
-            remoteDataSource.getDataById(listener, listener.getClass().getSimpleName(), id);
-        } else
-            listener.getError(null);
+
+    /** load from local, if it is not in local - get from remote, then push to local... */
+    public <T> void getValuesFromLocalById(GetItemListener<T> listener, String id, Class<T> className) {
+        localDataSource.getValuesById(new DisposableSingleObserver<T>() {
+            @Override public void onSuccess(@NotNull T t) { listener.getItem(t); }
+            @Override public void onError(@NotNull Throwable e) {
+                if (connected()) getValuesFromRemoteById(listener, id, className);
+                else listener.error(); }
+        }, id, className.getSimpleName());
     }
+
+
+
+    /** load from local, if it is not in local - get from remote, then push to local... */
+    public <M> void getValuesFromLocalByParent(GetItemListener<List<M>> listener, String parentId, Class<M> className) {
+        localDataSource.getValuesWithParent(parentId, new DisposableSingleObserver<List<M>>() {
+            @Override public void onSuccess(@NotNull List<M> t) { listener.getItem(t); }
+            @Override public void onError(@NotNull Throwable e) {
+                if (connected()) getValuesFromRemoteByParent(listener, parentId, className);
+                else listener.error(); }
+        }, className.getSimpleName());
+    }
+
+
+
+    /** load from remote, push to local, if it is not in remote - get from local, than get to the client*/
+    public <M> void getValuesFromRemoteByParent(GetItemListener<List<M>> listener, String parentId, Class<M> className) {
+        if (connected()) {
+            remoteDataSource.getValuesWithParent(parentId, new GetItemListener<List<M>>() {
+                @Override public void getItem(List<M> list) {
+                    localDataSource.loadValues(list, null, className.getSimpleName());
+                    listener.getItem(list); }
+                @Override public void error() { getValuesFromLocalByParent(listener, parentId, className); }
+            }, className);
+        }
+    }
+
 
 
 
@@ -88,8 +121,7 @@ public class DataController {
     }
 
     /** put data in local */
-    public <T> void pushDataToLocal(List<T> list, JobListener listener, Class<T> className){
-        Log.i("main", "push to local");
+    public <T, M> void pushDataToLocal(T list, JobListener listener, Class<M> className){
         localDataSource.loadValues(list, new LocalLoadable() {
             @Override public void onCompleteListener() { listener.done(true); }
 

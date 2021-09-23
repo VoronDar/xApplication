@@ -13,6 +13,7 @@ import androidx.room.TypeConverters;
 
 import com.astery.xapplication.data_source.local.database.converter.ArrayConverter;
 import com.astery.xapplication.data_source.local.database.converter.EventCategoryConverter;
+import com.astery.xapplication.data_source.remote.utils.FbUsable;
 import com.astery.xapplication.pojo.enums.EventCategory;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,12 +26,14 @@ import java.util.List;
  */
 @Entity
 @TypeConverters({ArrayConverter.class, EventCategoryConverter.class})
-public class EventTemplate {
+public class EventTemplate implements FbUsable {
     @NonNull
     @PrimaryKey
     private String id;
 
     private String name;
+
+    private String description;
 
     @Ignore
     private Bitmap image;
@@ -82,4 +85,23 @@ public class EventTemplate {
         this.eventCategory = eventCategory;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "EventTemplate{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", image=" + image +
+                ", eventCategory=" + eventCategory +
+                ", questions=" + questions +
+                '}';
+    }
 }

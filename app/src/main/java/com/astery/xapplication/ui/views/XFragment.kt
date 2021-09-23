@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.astery.xapplication.ui.*
-import com.astery.xapplication.ui.navigation.NavigationAction
+import com.astery.xapplication.ui.ResultListener
+import com.astery.xapplication.ui.navigation.FragmentNavController
 import com.astery.xapplication.ui.navigation.NavigationTransition
 import com.astery.xapplication.ui.navigation.ParentActivity
 import com.astery.xapplication.ui.navigation.SharedAxisTransition
@@ -24,12 +24,12 @@ abstract class XFragment : Fragment() {
     }
 
     /** set on click listener to this view that change fragments*/
-    protected fun clickToMove(view: View, type: NavigationAction, bundle:Bundle?){
+    protected fun clickToMove(view: View, type: FragmentNavController, bundle:Bundle?){
         view.setOnClickListener { (activity as ParentActivity).move(type, bundle)}
     }
 
     /** wrap listener from viewModel to change fragment if the result - success*/
-    protected fun getPreparedToMoveListener(type: NavigationAction, bundle:Bundle?): ResultListener {
+    protected fun getPreparedToMoveListener(type: FragmentNavController, bundle:Bundle?): ResultListener {
         val listener = object: ResultListener(){
             override fun success() {
                 (activity as ParentActivity).move(type, bundle);

@@ -24,7 +24,15 @@ public interface QuestionDao {
     @Query("SELECT * from questionentity WHERE parent_id = :parentId")
     @Transaction
     //@Transaction
-    Single<List<Question>> getQuestions(String parentId);
+    Single<List<Question>> getQuestionsByParents(String parentId);
+
+
+    /** get answers */
+    @Query("SELECT * from answer WHERE id = :id")
+    Single<Answer> getAnswer(String id);
+    /** get answers */
+    @Query("SELECT * from answer WHERE parent_id = :parentId")
+    Single<List<Answer>> getAnswerByParent(String parentId);
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

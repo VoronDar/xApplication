@@ -36,7 +36,7 @@ public class EventDescriptionConverter {
         Map<String, String> values = new HashMap<>();
         for (String k : properties) {
             String key = k.substring(0, k.indexOf("|"));
-            String value = k.substring(k.indexOf("|"));
+            String value = k.substring(k.indexOf("|") +1);
             values.put(key, value);
         }
         return new EventDescription(values);

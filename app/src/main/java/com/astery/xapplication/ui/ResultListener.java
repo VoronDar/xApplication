@@ -8,7 +8,8 @@ public abstract class ResultListener implements JobListener {
 
     @Override
     public void done(boolean success) {
-        listener.done(success);
+        if (listener != null)
+            listener.done(success);
         if (success)
             success();
     }

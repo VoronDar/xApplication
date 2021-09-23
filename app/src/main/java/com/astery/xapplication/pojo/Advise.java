@@ -95,6 +95,7 @@ public class Advise implements FbUsable {
         this.parentId = parentId;
     }
 
+
     @Override
     public String toString() {
         return "Advise{" +
