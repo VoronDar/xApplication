@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id = "@+id/recyclerView"
-    tools:context=".ui.views.SecondFragment">
+    android:layout_marginLeft="35dp"
+    android:layout_marginTop="35dp"
+    android:layout_marginRight="35dp"
+    android:id = "@+id/recyclerView">
 </androidx.recyclerview.widget.RecyclerView>

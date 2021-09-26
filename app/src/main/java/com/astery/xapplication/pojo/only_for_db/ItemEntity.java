@@ -24,11 +24,14 @@ public class ItemEntity {
     @ColumnInfo(name = "category_id")
     private String categoryId;
 
+    private String name;
 
-    public ItemEntity(@NonNull String id, String text, String parentId) {
+
+    public ItemEntity(@NonNull String id, String text, String parentId, String name) {
         this.id = id;
         this.text = text;
         this.parentId = parentId;
+        this.name = name;
     }
 
     public String getText() {
@@ -62,5 +65,13 @@ public class ItemEntity {
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

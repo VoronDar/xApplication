@@ -16,12 +16,14 @@ import com.astery.xapplication.pojo.serialazable.EventDescription;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.Date;
+
 
 
 @Entity
 @TypeConverters({ArrayConverter.class, DateConverter.class, EventDescriptionConverter.class})
-public class Event {
+public class Event implements Serializable {
     @NonNull
     @PrimaryKey
     private String id;
@@ -113,8 +115,6 @@ public class Event {
         return false;
     }
 
-
-    @NotNull
     @Override
     public String toString() {
         return "Event{" +

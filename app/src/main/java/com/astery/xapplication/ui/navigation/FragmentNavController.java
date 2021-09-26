@@ -2,8 +2,10 @@ package com.astery.xapplication.ui.navigation;
 
 import android.os.Bundle;
 
+import com.astery.xapplication.ui.views.AddEventFragment;
 import com.astery.xapplication.ui.views.CalendarFragment;
-import com.astery.xapplication.ui.views.SecondFragment;
+import com.astery.xapplication.ui.views.ItemFragment;
+import com.astery.xapplication.ui.views.TipsFragment;
 import com.astery.xapplication.ui.views.XFragment;
 import com.google.android.material.transition.MaterialSharedAxis;
 
@@ -35,7 +37,7 @@ public enum FragmentNavController {
     ADD_EVENT {
         @Override
         public XFragment getThisFragment() {
-            return new SecondFragment();
+            return new AddEventFragment();
         }
         @Override
         public FragmentNavController getParent() {
@@ -54,7 +56,7 @@ public enum FragmentNavController {
     GET_A_TIP{
         @Override
         public XFragment getThisFragment() {
-            return new SecondFragment();
+            return new TipsFragment();
         }
         @Override
         public FragmentNavController getParent() {
@@ -62,14 +64,36 @@ public enum FragmentNavController {
         }
         @Override
         public NavigationTransition getTransition() {
-            return new SharedAxisTransition().setAxis(MaterialSharedAxis.Z).setFirstParent(false);
+            return new SharedAxisTransition().setAxis(MaterialSharedAxis.Z).setFirstParent(true);
         }
         @Override
         public void checkFriends(FragmentNavController controller) {
             if (controller != FragmentNavController.CALENDAR)
                 super.checkFriends(controller);
         }
+    },
+    ITEM_PAGE{
+        @Override
+        public XFragment getThisFragment() {
+            return new ItemFragment();
+        }
+        @Override
+        public FragmentNavController getParent() {
+            return null;
+            // TODO - do something with it
+        }
+        @Override
+        public NavigationTransition getTransition() {
+            return new SharedAxisTransition().setAxis(MaterialSharedAxis.Z).setFirstParent(true);
+        }
+        @Override
+        public void checkFriends(FragmentNavController controller) {
+            if (controller != FragmentNavController.GET_A_TIP)
+                super.checkFriends(controller);
+
+        }
     };
+
 
 
     /** transition settings. It may be useful if it's required to get action from different places*/

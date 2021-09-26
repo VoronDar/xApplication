@@ -1,8 +1,12 @@
 package com.astery.xapplication.ui.views
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
+import android.view.View.GONE
+import android.view.View.VISIBLE
+import android.view.inputmethod.InputMethodManager
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,60 +31,87 @@ class ThisActivity : AppCompatActivity(), ParentActivity {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar);
-
-
+        setSupportActionBar(binding.toolbar)
         pushFragment()
+        //supportActionBar?.title = "title"
+    }
 
+
+
+
+    private fun prepareSearchView(hide:Boolean){
+        if (hide){
+            binding.searchView.visibility = GONE
+        }else{
+            binding.searchView.visibility = VISIBLE
+
+            binding.searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener,
+                androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+
+                    this@ThisActivity.currentFocus.let { view ->
+                        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
+            })
+
+            binding.searchView.setOnCloseListener {
+                this.currentFocus?.let { view ->
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                    imm?.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+
+                return@setOnCloseListener true
+            }
+        }
     }
 
     private fun pushFragment(){
         navController = FragmentNavController.CALENDAR
         currentFragment = navController.thisFragment
 
-        fragmentManager = supportFragmentManager;
-        val ft = fragmentManager.beginTransaction();
-        ft.add(R.id.hostFragment, currentFragment);
-        ft.commit();
+        fragmentManager = supportFragmentManager
+        val ft = fragmentManager.beginTransaction()
+        ft.add(R.id.hostFragment, currentFragment)
+        ft.commit()
     }
 
     override fun move(action: FragmentNavController, bundle: Bundle?) {
-        navController = action;
+        navController = action
         val newFragment = navController.thisFragment
         newFragment.arguments = bundle
 
         currentFragment.setTransition(navController.transition)
         newFragment.setTransition(navController.transition.reverseCopy())
 
-        val ft = fragmentManager.beginTransaction();
-        ft.replace(R.id.hostFragment, newFragment);
-        ft.commit();
+        val ft = fragmentManager.beginTransaction()
+        ft.replace(R.id.hostFragment, newFragment)
+        ft.commit()
 
         currentFragment = newFragment
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    override fun changeTitle(title: String) {
+        supportActionBar?.title = title;
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onSupportNavigateUp(): Boolean {
+        //val navController =
+        //return navController.navigateUp(appBarConfiguration)
+        //        || super.onSupportNavigateUp()
         return true
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    /*
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.host_fragment)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }
-
-     */
 }

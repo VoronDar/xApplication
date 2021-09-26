@@ -3,7 +3,7 @@ package com.astery.xapplication.pojo.serialazable;
 import java.io.Serializable;
 import java.util.Map;
 
-public class EventDescription implements Serializable {
+public class EventDescription {
 
     /** advice questionId - adviceId */
     private Map<String, String> properties;
@@ -18,12 +18,5 @@ public class EventDescription implements Serializable {
 
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
-    }
-
-    @Override
-    public String toString() {
-        return "EventDescription{" +
-                "properties=" + properties +
-                '}';
     }
 }

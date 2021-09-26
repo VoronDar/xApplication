@@ -8,8 +8,8 @@ import com.astery.xapplication.repository.listeners.JobListener;
 /** manager for commands those can get objects*/
 public class CommandManager<T>{
     private final GetItemListener<T> innerListener;
-    private JobListener commandListener;
-    private Command.CommandTask afterTask;
+    protected JobListener commandListener;
+    protected Command.CommandTask afterTask;
 
     public CommandManager(Command.GetItemInCommand<T> clientListener) {
         innerListener = new GetItemListener<T>() {

@@ -26,6 +26,11 @@ public interface QuestionDao {
     //@Transaction
     Single<List<Question>> getQuestionsByParents(String parentId);
 
+    /** get question */
+    @Query("SELECT * from questionentity WHERE id = :id")
+    @Transaction
+    Single<Question> getQuestion(String id);
+
 
     /** get answers */
     @Query("SELECT * from answer WHERE id = :id")

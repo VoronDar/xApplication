@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_marginLeft="35dp"
     android:layout_marginRight="35dp"
@@ -57,14 +58,19 @@
         android:layout_weight="1">
 
 
-    <ImageView
-        android:id = "@+id/item_image"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src = "@drawable/dating"
-        android:scaleType="centerCrop"
-        android:contentDescription="@string/item_image_CD" />
-        <!-- this imageView should be a rectangle -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id = "@+id/item_image"
+                android:layout_width="match_parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                android:src = "@drawable/dating"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/item_image_CD" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <Button
             android:id = "@+id/get_a_tip"
             style="@style/CommonButton"

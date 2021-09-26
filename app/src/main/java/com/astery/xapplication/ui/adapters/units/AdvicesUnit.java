@@ -3,15 +3,15 @@ package com.astery.xapplication.ui.adapters.units;
 
 import com.astery.xapplication.pojo.Advise;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AdvicesUnit {
     private final String question;
     private final String answer;
-    private final ArrayList<Advise> advices;
+    private final List<Advise> advices;
     private final String itemId;
 
-    public AdvicesUnit(String question, String answer, ArrayList<Advise> advices, String itemId) {
+    public AdvicesUnit(String question, String answer, List<Advise> advices, String itemId) {
         this.question = question;
         this.answer = answer;
         this.advices = advices;
@@ -26,7 +26,7 @@ public class AdvicesUnit {
         return answer;
     }
 
-    public ArrayList<Advise> getAdvices() {
+    public List<Advise> getAdvices() {
         return advices;
     }
 

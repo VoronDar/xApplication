@@ -1,7 +1,6 @@
 package com.astery.xapplication.ui.views
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -32,6 +31,8 @@ class CalendarFragment : XFragment() {
     private lateinit var cAdapter: CalendarAdapter
     private lateinit var eAdapter: EventAdapter
 
+    private lateinit var now:Calendar
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,26 +42,18 @@ class CalendarFragment : XFragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        prepareAdapters()
-        setViewModelListeners(viewModel)
-        setListeners()
-
-    }
-
-    /** set on click listeners*/
-    private fun setListeners(){
+    override fun setListeners(){
         thisBinding.backIcon.setOnClickListener { changeEventPresent(false) }
+
+
+        clickToMove(thisBinding.date, FragmentNavController.GET_A_TIP, null)
     }
 
 
-    /** prepare recyclerviews and adapters to view */
-    private fun prepareAdapters(){
-
+    override fun prepareAdapters(){
         // days
-        val units = getDayUnitList();
+        val units = getDayUnitList()
         cAdapter = CalendarAdapter(units)
         cAdapter.notifyDataSetChanged()
         cAdapter.setBlockListener { position ->
@@ -74,14 +67,14 @@ class CalendarFragment : XFragment() {
 
 
         // events for one day
-        eAdapter = EventAdapter(null, context);
+        eAdapter = EventAdapter(null, context)
         eAdapter.notifyDataSetChanged()
         eAdapter.setBlockListener { position ->
             if (position == 0)
                 getPreparedToMoveListener(FragmentNavController.ADD_EVENT, null).done(true)
             else {
-                viewModel.selectedEvent.value = position;
-                changeEventPresent(true);
+                viewModel.selectedEvent.value = position
+                changeEventPresent(true)
             }
         }
 
@@ -89,17 +82,17 @@ class CalendarFragment : XFragment() {
         thisBinding.eventRecycler.layoutManager =
             GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
 
+
     }
 
-    /** set listeners to view's item*/
-    private fun setViewModelListeners(viewModel: CalendarViewModel) {
-
+    override fun setViewModelListeners() {
         viewModel.repository = (requireActivity().application as App).container.repository
 
         viewModel.selectedDay.observe(viewLifecycleOwner, {
-            thisBinding.date.text = getString(R.string.calendar_date, it.get(Calendar.DAY_OF_MONTH),
-                viewModel.getMonth(it.get(Calendar.MONTH), context), it.get(Calendar.YEAR))
-            cAdapter.setSelectedDay(it.get(Calendar.DAY_OF_MONTH))
+            now = it
+            thisBinding.date.text = getString(R.string.calendar_date, now.get(Calendar.DAY_OF_MONTH),
+                viewModel.getMonth(now.get(Calendar.MONTH), context), now.get(Calendar.YEAR))
+            cAdapter.setSelectedDay(now.get(Calendar.DAY_OF_MONTH))
             viewModel.updateEvents()
 
         })
@@ -107,50 +100,54 @@ class CalendarFragment : XFragment() {
         viewModel.events.observe(viewLifecycleOwner,{
             eAdapter.setUnits(it as java.util.ArrayList<Event>?)
         })
+
     }
 
     /** get units for calendar */
     private fun getDayUnitList(): ArrayList<DayUnit>{
-        val units = ArrayList<DayUnit>();
+        val units = ArrayList<DayUnit>()
         val cal:Calendar = viewModel.selectedDay.value!!
         for (i in 1..cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
             units.add(DayUnit(i, true))
         }
 
-        val firstDay:Calendar=GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1);
+        val firstDay:Calendar=GregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1)
         for (i in Calendar.SUNDAY until firstDay.get(Calendar.DAY_OF_WEEK)){
             units.add(0, DayUnit(i, false))
         }
 
-        return units;
+        return units
     }
 
     /** open or close event */
     private fun changeEventPresent(isOpen: Boolean){
-        //clickToMove(thisBinding.eventContent.getATip, NavigationAction.GET_A_TIP, );
-
 
         if (isOpen){
             viewModel.getTemplate { success ->
                 if (success) {
 
+
+
                     val event =viewModel.events.value?.get(viewModel.selectedEvent.value!!)!!
 
-                    Log.i("main", event.toString())
+
+                    val bundle = Bundle()
+                    bundle.putSerializable("event", event)
+                    clickToMove(thisBinding.eventContent.getATip, FragmentNavController.GET_A_TIP, bundle)
 
                     thisBinding.eventContent.eventName.text =
                        event.template.name
 
 
-                    thisBinding.eventContent.eventDescription.text = event.template.description;
+                    thisBinding.eventContent.eventDescription.text = event.template.description
 
-                    var properties = "";
+                    var properties = ""
                     if (event.eventDescription != null)
                         for (i in event.template.questions){
-                            properties += i.selectedAnswer.text + "\n\n";
+                            properties += i.selectedAnswer.text + "\n\n"
                         }
 
-                    thisBinding.eventContent.eventProperties.text = properties;
+                    thisBinding.eventContent.eventProperties.text = properties
 
                     if (event.isTips)
                         thisBinding.eventContent.getATip.visibility = VISIBLE
@@ -160,16 +157,14 @@ class CalendarFragment : XFragment() {
 
 
                     val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-
                     TransitionManager.beginDelayedTransition(thisBinding.fragmentRoot, sharedAxis)
 
 
-                    thisBinding.eventRecycler.visibility = View.GONE
-                    thisBinding.eventContainer.visibility = View.VISIBLE
-
-                    thisBinding.backIcon.visibility = View.VISIBLE;
+                    thisBinding.eventRecycler.visibility = GONE
+                    thisBinding.eventContainer.visibility = VISIBLE
+                    thisBinding.backIcon.visibility = VISIBLE
                 }
-            };
+            }
 
 
         } else{
@@ -177,12 +172,18 @@ class CalendarFragment : XFragment() {
 
             TransitionManager.beginDelayedTransition(thisBinding.fragmentRoot, sharedAxis)
 
-            thisBinding.eventRecycler.visibility = View.VISIBLE
-            thisBinding.eventContainer.visibility =  View.GONE
+            thisBinding.eventRecycler.visibility = VISIBLE
+            thisBinding.eventContainer.visibility =  GONE
 
             thisBinding.backIcon.visibility = View.INVISIBLE
 
         }
     }
 
+    override fun getTitle(): String {
+        if (this::now.isInitialized)
+            return getString(R.string.title_calendar,
+                viewModel.getMonth(now.get(Calendar.MONTH), context), now.get(Calendar.YEAR))
+        return "";
+    }
 }

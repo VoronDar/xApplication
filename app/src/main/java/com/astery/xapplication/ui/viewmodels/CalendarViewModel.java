@@ -8,8 +8,11 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.astery.xapplication.R;
+import com.astery.xapplication.pojo.Advise;
 import com.astery.xapplication.pojo.Answer;
 import com.astery.xapplication.pojo.Event;
+import com.astery.xapplication.pojo.Item;
+import com.astery.xapplication.pojo.Question;
 import com.astery.xapplication.pojo.serialazable.EventDescription;
 import com.astery.xapplication.repository.Repository;
 import com.astery.xapplication.repository.listeners.GetItemListener;
@@ -78,17 +81,46 @@ public class CalendarViewModel extends ViewModel {
 
 
         Map<String, String> properties = new HashMap<>();
-        properties.put("value", "ad");
-        properties.put("value2", "ad2");
+        properties.put("qweqwe", "ad");
+        properties.put("---", "ad2");
+        properties.put("aaaa", "ad3");
 
         repository.addEvent(new Event("1123", "t", new EventDescription(properties), selectedDay.getValue().getTime()),
                 success -> Log.i("main", success + " done"));
 
         List<Answer> answers = new ArrayList<>();
-        answers.add(new Answer("ad", "asdasdasd", "1", "qweqwe"));
-        answers.add(new Answer("ad2", "22222", "2", "qweqwe"));
+        answers.add(new Answer("ad", "The vagina was really tight and there were not enough lube", "1", "qweqwe"));
+        answers.add(new Answer("ad2", "22222", null, "---"));
+        answers.add(new Answer("ad3", "We don't wanted eat chocolate", "2", "aaaa"));
 
-        repository.dataController.pushDataToLocal(answers, success -> Log.i("main", "answer done " + success), Answer.class);
+        List<Item> items = new ArrayList<>();
+        items.add(new Item("1",
+                "Sometimes when you have sex you may have problems with penetrating. Seems that you were doing foreplay for hours but it still not enough." +
+                        "You both feel nervous about that, you don't know why this common action is so hard for you."+
+                        "\n\nDue to various reasons—including menopause, aging, hormonal changes, birth control, and other medications—some people's vaginas produce less natural lubrication than others. If you're experiencing vaginal dryness, using extra lube may be essential to avoid pain during sexual intercourse." +
+                "\n\nPersonal lubricant (informally known as lube) is a liquid or gel used during sexual activity to reduce friction between body parts or a body part and a sex toy. Sexual lubricants increase pleasure and reduce pain during penetrative sex, masturbation, or sex toy play.", "21312312", "Why should you use lubricants?"));
+        items.add(new Item("2", "terrvwervewarevrvavwer", "21312312", "How not to become pregnant"));
+
+        List<Advise> advises = new ArrayList<>();
+        advises.add(new Advise("ad", 1, 1, 1, "Don't be confused with the fact that the vagina produces not enough lube", "1"));
+        advises.add(new Advise("ad1", 1, 1, 1, "Don't be confused with the idea that lubricants are for old or ill people", "1"));
+        advises.add(new Advise("ad2", 1, 1, 1, "You should use lubricants if penetrating is difficult", "1"));
+        advises.add(new Advise("ad4", 1, 1, 1, "You should aware how to use lubricants properly", "1"));
+        advises.add(new Advise("ad5", 1, 1, 1, "If you have to always use lubricants you should attend a doctor", "1"));
+
+        advises.add(new Advise("ad3", 1, 1, 1, "try to do something new", "2"));
+        advises.add(new Advise("ad4", 1, 1, 1, "forget about everything", "2"));
+
+
+        List<Question> questions = new ArrayList<>();
+        questions.add(new Question("qweqwe", "Was it hard to penetrate the vagina?", null));
+        questions.add(new Question("---", "------", null));
+        questions.add(new Question("aaaa", "Did you both ate something?", null));
+
+        repository.dataController.pushDataToLocal(answers, null, Answer.class);
+        repository.dataController.pushDataToLocal(items, null, Item.class);
+        repository.dataController.pushDataToLocal(advises, null, Advise.class);
+        repository.dataController.pushDataToLocal(questions, success -> Log.i("main", "question " + success), Question.class);
 
     }
 
@@ -144,7 +176,7 @@ public class CalendarViewModel extends ViewModel {
         if (event.getTemplate() != null)
             listener.done(true);
 
-        repository.getEventInfo(event, listener);
+        repository.getEventInfoForLook(event, listener);
     }
 
     /** add empty unit in events list (it used for adding more events) */

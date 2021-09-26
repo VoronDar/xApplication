@@ -18,14 +18,25 @@ abstract class XFragment : Fragment() {
     protected val binding get() = _binding!!
 
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setTitle()
+        setViewModelListeners()
+        setListeners()
+        prepareAdapters()
+    }
+
     /** set on click listener to this view that change fragments*/
     protected fun clickToMove(view: View, type: FragmentNavController, bundle:Bundle?){
-        view.setOnClickListener { (activity as ParentActivity).move(type, bundle)}
+        view.setOnClickListener {
+            (activity as ParentActivity).move(type, bundle)}
     }
 
     /** wrap listener from viewModel to change fragment if the result - success*/
@@ -33,11 +44,13 @@ abstract class XFragment : Fragment() {
         val listener = object: ResultListener(){
             override fun success() {
                 (activity as ParentActivity).move(type, bundle);
+
             }
         };
         return listener;
     }
 
+    /** set transition between two fragments */
     fun setTransition(transition: NavigationTransition){
         when(transition::class.java.simpleName) {
             "SharedAxisTransition" -> {
@@ -51,5 +64,21 @@ abstract class XFragment : Fragment() {
             }
         }
     }
+
+    protected fun setTitle(){
+        (activity as ParentActivity).changeTitle(getTitle())
+    }
+
+
+    /** set onClick listeners (mostly for applying actions)*/
+    protected abstract fun setListeners()
+    /** set listeners to viewModel changes */
+    protected abstract fun setViewModelListeners()
+    /** set units, layout params to adapters*/
+    protected abstract fun prepareAdapters()
+
+    /** return title */
+    protected abstract fun getTitle():String;
+
 
 }

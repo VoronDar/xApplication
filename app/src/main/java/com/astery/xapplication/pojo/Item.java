@@ -8,13 +8,14 @@ import androidx.room.Relation;
 
 import com.astery.xapplication.data_source.remote.utils.FbUsable;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * one item in article
  * may has text, picture, and sets of advises.
  * */
-public class Item implements FbUsable {
+public class Item implements FbUsable, Serializable {
     private String id;
 
     @Ignore
@@ -75,10 +76,11 @@ public class Item implements FbUsable {
         this.advises = advises;
     }
 
-    public Item(String id, String text, String parentId) {
+    public Item(String id, String text, String parentId, String name) {
         this.id = id;
         this.text = text;
         this.parentId = parentId;
+        this.name = name;
     }
 
     public String getCategoryId() {

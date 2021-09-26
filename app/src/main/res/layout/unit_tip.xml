@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_marginTop="30dp"
+    android:layout_marginBottom="30dp"
     android:layout_height="wrap_content"
     tools:ignore="HardcodedText" >
 
@@ -34,6 +34,8 @@
             android:id = "@+id/more_details"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:gravity = "center_vertical"
+            android:background="@drawable/dating"
             android:layout_marginRight="20dp"
             android:layout_gravity="center_vertical"
             />
@@ -60,9 +62,17 @@
     <LinearLayout
         android:id = "@+id/tip_layout"
         android:orientation="vertical"
+        android:layout_marginLeft="35dp"
+        android:layout_marginStart="35dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <!-- you should place here advices -->
+    <View
+        style="@style/divider"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        />
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.astery.xapplication.ui.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +15,22 @@ import com.astery.xapplication.R;
 import com.astery.xapplication.pojo.Advise;
 import com.astery.xapplication.ui.adapters.units.AdvicesUnit;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static android.view.View.GONE;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder>{
 
-    private ArrayList<AdvicesUnit> units;
+    private List<AdvicesUnit> units;
     private BlockListener blockListener;
     private final Fragment context;
 
-    public TipsAdapter(ArrayList<AdvicesUnit> units, Fragment context) {
+    public TipsAdapter(List<AdvicesUnit> units, Fragment context) {
         this.units = units;
         this.context = context;
     }
 
-    public void setUnits(ArrayList<AdvicesUnit> units) {
+    public void setUnits(List<AdvicesUnit> units) {
         this.units = units;
         notifyDataSetChanged();
     }
@@ -61,11 +60,11 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder>{
         holder.questionNumber.setText(position+1+"");
 
         for (Advise advice: unit.getAdvices()){
-            //LinearLayout adviceLayout = new LinearLayout(context.getContext());
-            //adviceLayout.setOrientation(LinearLayout.VERTICAL);
-            //adviceLayout.addView(context.getLayoutInflater().inflate(R.layout.unit_advice, null));
-            //((TextView)adviceLayout.findViewById(R.id.advice_text)).setText(advice.getText());
-            holder.tipLayout.addView(context.getLayoutInflater().inflate(R.layout.unit_advice, null));
+            View view = context.getLayoutInflater().inflate(R.layout.unit_advice, null);
+            ((TextView)view.findViewById(R.id.advice_text)).setText(advice.getText());
+            view.findViewById(R.id.dislikes_card).setVisibility(GONE);
+            view.findViewById(R.id.likes_card).setVisibility(GONE);
+            holder.tipLayout.addView(view);
         }
 
 
@@ -73,6 +72,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder>{
 
     @Override
     public int getItemCount() {
+        if (units == null)
+            return 0;
         return units.size();
     }
 

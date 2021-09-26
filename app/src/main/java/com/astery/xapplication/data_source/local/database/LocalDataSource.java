@@ -11,6 +11,7 @@ import com.astery.xapplication.pojo.EventTemplate;
 import com.astery.xapplication.pojo.Item;
 import com.astery.xapplication.pojo.Question;
 import com.astery.xapplication.pojo.pojo_converters.ItemConverter;
+import com.astery.xapplication.pojo.pojo_converters.QuestionConverter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,8 +70,14 @@ public class LocalDataSource {
             case "Answer":
                 subscribe((Single<T>)database.questionDao().getAnswer(id), observer);
                 break;
+            case "Question":
+                subscribe((Single<T>)database.questionDao().getQuestion(id), observer);
+                break;
+            case "Item":
+                subscribe((Single<T>)database.articleDao().getItemById(id), observer);
+                break;
             default:
-                throw new RuntimeException("getValuesWithParent got a new class " + className);
+                throw new RuntimeException("getValuesWithId got a new class " + className);
         }
     }
 
@@ -118,6 +125,9 @@ public class LocalDataSource {
                         break;
                     case "Answer":
                         database.questionDao().addAnswers((List<Answer>)list);
+                        break;
+                    case "Question":
+                        database.questionDao().addQuestions(QuestionConverter.getEntities((List<Question>)list));
                         break;
                     default:
                         throw new RuntimeException("loadValues got a new class " + className);

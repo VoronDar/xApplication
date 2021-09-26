@@ -123,9 +123,12 @@ public class DataController {
     /** put data in local */
     public <T, M> void pushDataToLocal(T list, JobListener listener, Class<M> className){
         localDataSource.loadValues(list, new LocalLoadable() {
-            @Override public void onCompleteListener() { listener.done(true); }
+            @Override public void onCompleteListener() {
+                if (listener != null)
+                listener.done(true); }
 
-            @Override public void onErrorListener() { listener.done(false); }
+            @Override public void onErrorListener() {
+                if (listener != null) listener.done(false); }
         }, className.getSimpleName());
     }
 
