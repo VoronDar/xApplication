@@ -31,23 +31,31 @@ abstract class XFragment : Fragment() {
         setViewModelListeners()
         setListeners()
         prepareAdapters()
+
+        (activity as ParentActivity).showSearch(requireSearch())
     }
 
-    /** set on click listener to this view that change fragments*/
+    /** set on click listener to this view that change fragments, but it requires bundle at the moment of declaring*/
     protected fun clickToMove(view: View, type: FragmentNavController, bundle:Bundle?){
         view.setOnClickListener {
             (activity as ParentActivity).move(type, bundle)}
+    }
+
+    /** set on click listener to this view that change fragments, but it requires bundle at the moment of moving*/
+    protected fun clickToMove(view: View, type: FragmentNavController, bundle:BundleGettable){
+        view.setOnClickListener {
+            (activity as ParentActivity).move(type, bundle.getBundle())}
     }
 
     /** wrap listener from viewModel to change fragment if the result - success*/
     protected fun getPreparedToMoveListener(type: FragmentNavController, bundle:Bundle?): ResultListener {
         val listener = object: ResultListener(){
             override fun success() {
-                (activity as ParentActivity).move(type, bundle);
+                (activity as ParentActivity).move(type, bundle)
 
             }
-        };
-        return listener;
+        }
+        return listener
     }
 
     /** set transition between two fragments */
@@ -78,7 +86,13 @@ abstract class XFragment : Fragment() {
     protected abstract fun prepareAdapters()
 
     /** return title */
-    protected abstract fun getTitle():String;
+    protected abstract fun getTitle():String
+
+    /** search view appears when a fragment requires it*/
+    protected abstract fun requireSearch(): Boolean
 
 
+    interface BundleGettable{
+        fun getBundle():Bundle
+    }
 }

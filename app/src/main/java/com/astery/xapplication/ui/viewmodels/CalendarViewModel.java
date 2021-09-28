@@ -144,6 +144,7 @@ public class CalendarViewModel extends ViewModel {
             }
         }
         selectedDay.setValue(new GregorianCalendar(year, month, 1));
+        changeDay(1);
 
 
     }

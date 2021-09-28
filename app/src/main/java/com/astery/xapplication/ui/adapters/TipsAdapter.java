@@ -14,10 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.astery.xapplication.R;
 import com.astery.xapplication.pojo.Advise;
 import com.astery.xapplication.ui.adapters.units.AdvicesUnit;
+import com.astery.xapplication.ui.views.utils.VS;
 
 import java.util.List;
-
-import static android.view.View.GONE;
 
 public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder>{
 
@@ -62,8 +61,8 @@ public class TipsAdapter extends RecyclerView.Adapter<TipsAdapter.ViewHolder>{
         for (Advise advice: unit.getAdvices()){
             View view = context.getLayoutInflater().inflate(R.layout.unit_advice, null);
             ((TextView)view.findViewById(R.id.advice_text)).setText(advice.getText());
-            view.findViewById(R.id.dislikes_card).setVisibility(GONE);
-            view.findViewById(R.id.likes_card).setVisibility(GONE);
+            view.findViewById(R.id.dislikes_card).setVisibility(VS.Companion.get(false));
+            view.findViewById(R.id.likes_card).setVisibility(VS.Companion.get(false));
             holder.tipLayout.addView(view);
         }
 

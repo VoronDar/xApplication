@@ -29,4 +29,6 @@
     <string name="title_calendar">%s, %d</string>
     <string name="title_tips">Tips</string>
     <string name="title_new_event">Add new event</string>
+    <string name="calendar_no_event_info">You haven\'t added any events</string>
+    <string name="calendar_no_event_action">Add an event</string>
 </resources>

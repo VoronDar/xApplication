@@ -1,7 +1,6 @@
 package com.astery.xapplication.ui.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.astery.xapplication.R;
 import com.astery.xapplication.ui.adapters.units.DayUnit;
+import com.astery.xapplication.ui.views.utils.VS;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
-import static android.view.View.GONE;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHolder>{
 
@@ -70,14 +67,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
         holder.day.setText(Integer.toString(unit.day));
 
-        if (!unit.enabled){
-            holder.card.setVisibility(GONE);
-        }
-
-        if (position == selectedDateId){
-            holder.day.setVisibility(GONE);
-        } else
-            holder.day.setVisibility(View.VISIBLE);
+        holder.card.setVisibility(VS.Companion.get(unit.enabled));
+        holder.day.setVisibility(VS.Companion.get(position!=selectedDateId));
 
 
     }

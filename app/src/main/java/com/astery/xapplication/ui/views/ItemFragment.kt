@@ -58,4 +58,8 @@ class ItemFragment : XFragment() {
     override fun getTitle(): String {
         return resources.getString(R.string.title_tips)
     }
+
+    override fun requireSearch(): Boolean {
+        return false
+    }
 }

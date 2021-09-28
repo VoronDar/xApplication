@@ -43,4 +43,9 @@ class AddEventFragment : XFragment() {
     override fun getTitle(): String {
         return resources.getString(R.string.title_new_event)
     }
+
+    override fun requireSearch(): Boolean {
+        return true
+    }
+
 }
