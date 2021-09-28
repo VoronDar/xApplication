@@ -23,7 +23,7 @@ class ItemFragment : XFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = PageItemBinding.inflate(inflater, container, false)
+        bind = PageItemBinding.inflate(inflater, container, false)
         thisBinding = binding as PageItemBinding
         return binding.root
     }
@@ -60,6 +60,10 @@ class ItemFragment : XFragment() {
     }
 
     override fun requireSearch(): Boolean {
+        return false
+    }
+
+    override fun onBackPressed(): Boolean {
         return false
     }
 }

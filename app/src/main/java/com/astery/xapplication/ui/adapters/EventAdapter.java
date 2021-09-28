@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.astery.xapplication.R;
 import com.astery.xapplication.pojo.Event;
+import com.astery.xapplication.ui.views.utils.SD;
 
 import java.util.ArrayList;
 
@@ -55,10 +56,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder>{
         Event unit = units.get(position);
 
         if (unit == null){
-            holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.googleg_standard_color_18));
+            SD.Companion.setDrawable(holder.image, R.drawable.ic_add, context);
+            holder.image.setPadding(50, 50, 50, 50);
         }
         else
-            holder.image.setImageDrawable(context.getResources().getDrawable(R.drawable.dating));
+            SD.Companion.setDrawable(holder.image, R.drawable.dating, context);
+            // TODO - set custom images
 
     }
 

@@ -22,7 +22,7 @@ class AddEventFragment : XFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAddEventBinding.inflate(inflater, container, false)
+        bind = FragmentAddEventBinding.inflate(inflater, container, false)
         thisBinding = binding as FragmentAddEventBinding
         return binding.root
     }
@@ -48,4 +48,7 @@ class AddEventFragment : XFragment() {
         return true
     }
 
+    override fun onBackPressed(): Boolean {
+        return false
+    }
 }

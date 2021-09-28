@@ -16,64 +16,44 @@
             android:paddingBottom="20dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
+            android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="parent">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="2dp"
-                android:layout_gravity="left"
+                android:layout_gravity="center"
                 android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text = "ВС"
-                    android:layout_height="30dp"
-                    android:layout_margin="2dp"
-                    android:textColor="#892555"
-                    android:textSize="14dp"/>
+                    style = "@style/CalendarText"
+                    android:textColor="@color/calendar_weekend"
+                    android:text = "@string/calendar_sunday"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text = "ПН"
-                    android:layout_height="30dp"
-                    android:layout_margin="2dp"
-                    android:textColor="#26356B"
-                    android:textSize="14dp"/>
+                    style="@style/CalendarText"
+                    android:textColor="@color/calendar_week"
+                    android:text = "@string/calendar_monday"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text = "ВТ"
-                    android:layout_height="30dp"
-                    android:layout_margin="2dp"
-                    android:textColor="#26356B"
-                    android:textSize="14dp"/>
+                    style="@style/CalendarText"
+                    android:textColor="@color/calendar_week"
+                    android:text = "@string/calendar_tuesday"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text = "СР"
-                    android:layout_height="30dp"
-                    android:layout_margin="2dp"
-                    android:textColor="#26356B"
-                    android:textSize="14dp"/>
+                    style="@style/CalendarText"
+                    android:textColor="@color/calendar_week"
+                    android:text = "@string/calendar_wednesday"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text = "ЧТ"
-                    android:layout_height="30dp"
-                    android:layout_margin="2dp"
-                    android:textColor="#26356B"
-                    android:textSize="14dp"/>
+                    style="@style/CalendarText"
+                    android:textColor="@color/calendar_week"
+                    android:text = "@string/calendar_thursday"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text = "ПТ"
-                    android:layout_height="30dp"
-                    android:layout_margin="2dp"
-                    android:textColor="#26356B"
-                    android:textSize="14dp"/>
+                    style="@style/CalendarText"
+                    android:textColor="@color/calendar_week"
+                    android:text = "@string/calendar_friday"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:text = "СБ"
-                    android:layout_height="30dp"
-                    android:layout_margin="2dp"
-                    android:textColor="#892555"
-                    android:textSize="14dp"/>
+                    style="@style/CalendarText"
+                    android:textColor="@color/calendar_weekend"
+                    android:text = "@string/calendar_saturday"/>
 
             </LinearLayout>
             <Space
@@ -99,13 +79,15 @@
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
         android:layout_marginTop="20dp"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_height="36dp">
 
-        <View
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:visibility="invisible"
-            android:background="@color/black"
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_back"
             android:layout_gravity="center_vertical"
             android:id = "@+id/back_icon"
             />
@@ -135,15 +117,17 @@
         android:id = "@+id/event_content"
         layout = "@layout/page_event"
         android:layout_marginTop="35dp"
-        android:layout_marginLeft="35dp"
+        android:layout_marginLeft="45dp"
         android:layout_marginRight="35dp"
         android:layout_height="match_parent"
-        android:layout_width = "match_parent"/>
+        android:layout_width = "match_parent"
+        tools:ignore="RtlHardcoded" />
     </FrameLayout>
     <com.google.android.material.card.MaterialCardView
         style="@style/card"
         android:visibility="gone"
         app:strokeWidth="0dp"
+        app:rippleColor="@color/ripple_color"
         android:id = "@+id/noCardInfo"
         android:layout_width="match_parent"
         android:layout_margin="35dp"
@@ -180,7 +164,6 @@
         android:id = "@+id/event_recycler"
         android:layout_width="match_parent"
         android:layout_marginTop="35dp"
-        android:visibility="gone"
         android:layout_marginLeft="35dp"
         android:overScrollMode="never"
         android:layout_marginRight="35dp"

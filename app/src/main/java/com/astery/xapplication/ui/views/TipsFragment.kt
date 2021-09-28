@@ -27,7 +27,7 @@ class TipsFragment : XFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTipsBinding.inflate(inflater, container, false)
+        bind = FragmentTipsBinding.inflate(inflater, container, false)
         thisBinding = binding as FragmentTipsBinding
         return binding.root
     }
@@ -66,6 +66,10 @@ class TipsFragment : XFragment() {
     }
 
     override fun requireSearch(): Boolean {
+        return false
+    }
+
+    override fun onBackPressed(): Boolean {
         return false
     }
 }

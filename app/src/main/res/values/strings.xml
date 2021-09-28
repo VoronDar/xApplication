@@ -25,6 +25,14 @@
     <string name="calendar_november">November</string>
     <string name="calendar_december">December</string>
 
+    <string name = "calendar_monday">Mo</string>
+    <string name = "calendar_tuesday">Tu</string>
+    <string name = "calendar_wednesday">We</string>
+    <string name = "calendar_thursday">Th</string>
+    <string name = "calendar_friday">Fr</string>
+    <string name = "calendar_saturday">Sa</string>
+    <string name = "calendar_sunday">Su</string>
+
 
     <string name="title_calendar">%s, %d</string>
     <string name="title_tips">Tips</string>

@@ -14,14 +14,14 @@ import com.google.android.material.transition.MaterialSharedAxis
 abstract class XFragment : Fragment() {
 
 
-    protected var _binding: ViewBinding? = null
-    protected val binding get() = _binding!!
+    protected var bind: ViewBinding? = null
+    protected val binding get() = bind!!
 
 
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        bind = null
     }
 
 
@@ -73,6 +73,10 @@ abstract class XFragment : Fragment() {
         }
     }
 
+    /** do smt when backPressed
+     * @return false if there is no special action for back*/
+    abstract fun onBackPressed():Boolean
+
     protected fun setTitle(){
         (activity as ParentActivity).changeTitle(getTitle())
     }
@@ -90,6 +94,7 @@ abstract class XFragment : Fragment() {
 
     /** search view appears when a fragment requires it*/
     protected abstract fun requireSearch(): Boolean
+
 
 
     interface BundleGettable{

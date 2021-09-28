@@ -24,4 +24,11 @@
     <color name="good_advice">#CC305A15</color>
     <color name="new_advice"></color>
     <color name="rape_advice"></color>
+
+
+    <color name="ripple_color">#3360B59D</color>
+
+    <color name="selected_card_color">#E7EAFF</color>
+    <color name="calendar_weekend">#892555</color>
+    <color name="calendar_week">#26356B</color>
 </resources>

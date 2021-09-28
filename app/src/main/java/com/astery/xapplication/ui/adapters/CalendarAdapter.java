@@ -1,6 +1,7 @@
 package com.astery.xapplication.ui.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +21,24 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
 
     private ArrayList<DayUnit> units;
     private BlockListener blockListener;
-    private int selectedDateId;
+    private int selectedDay;
+    private final Context context;
 
-    public CalendarAdapter(ArrayList<DayUnit> blocks) {
+    public CalendarAdapter(ArrayList<DayUnit> blocks, Context context) {
         this.units = blocks;
-        selectedDateId = 0;
+        selectedDay = 0;
+        this.context = context;
 
     }
 
     public void setUnits(ArrayList<DayUnit> units) {
         this.units = units;
-        selectedDateId = 0;
+        selectedDay = 0;
         notifyDataSetChanged();
+    }
+
+    public ArrayList<DayUnit> getUnits() {
+        return units;
     }
 
     public void setBlockListener(BlockListener block_listener) {
@@ -39,14 +46,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
     }
 
     public void setSelectedDay(int day) {
-        for (int i = 0; i < units.size(); i++){
-            DayUnit unit = units.get(i);
-            if (unit.day == day){
-                selectedDateId = i;
-                notifyDataSetChanged();
-                break;
-            }
-        }
+        this.selectedDay = day;
+        notifyDataSetChanged();
     }
 
     public interface BlockListener {
@@ -68,7 +69,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.ViewHo
         holder.day.setText(Integer.toString(unit.day));
 
         holder.card.setVisibility(VS.Companion.get(unit.enabled));
-        holder.day.setVisibility(VS.Companion.get(position!=selectedDateId));
+
+        if (unit.day==selectedDay){
+         holder.card.setBackgroundColor(context.getResources().getColor(R.color.selected_card_color));
+         holder.card.setStrokeColor(context.getResources().getColor(R.color.black));
+        }
 
 
     }

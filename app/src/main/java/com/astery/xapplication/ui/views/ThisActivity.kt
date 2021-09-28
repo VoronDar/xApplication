@@ -105,10 +105,24 @@ class ThisActivity : AppCompatActivity(), ParentActivity {
         newFragment.setTransition(navController.transition.reverseCopy())
 
         val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.hostFragment, newFragment)
+        ft.replace(R.id.hostFragment, newFragment, newFragment.javaClass.simpleName)
+
+        ft.addToBackStack(newFragment.javaClass.simpleName)
         ft.commit()
 
         currentFragment = newFragment
+    }
+
+    private fun back(){
+        val index: Int = fragmentManager.backStackEntryCount - 1
+        val backEntry: FragmentManager.BackStackEntry =
+            fragmentManager.getBackStackEntryAt(index)
+        val tag = backEntry.name
+        val fragment: XFragment = fragmentManager.findFragmentByTag(tag) as XFragment
+
+        val ft = fragmentManager.beginTransaction()
+        ft.replace(R.id.hostFragment, fragment)
+        ft.commit()
     }
 
     override fun changeTitle(title: String) {
@@ -142,5 +156,13 @@ class ThisActivity : AppCompatActivity(), ParentActivity {
         //return navController.navigateUp(appBarConfiguration)
         //        || super.onSupportNavigateUp()
         return true
+    }
+
+    override fun onBackPressed() {
+        if (!currentFragment.onBackPressed()) {
+            if (navController.parent != null)
+                back()
+            super.onBackPressed()
+        }
     }
 }

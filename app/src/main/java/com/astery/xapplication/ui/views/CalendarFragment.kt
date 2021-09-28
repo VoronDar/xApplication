@@ -7,7 +7,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -44,7 +43,7 @@ class CalendarFragment : XFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        bind = FragmentCalendarBinding.inflate(inflater, container, false)
         thisBinding = binding as FragmentCalendarBinding
         return binding.root
     }
@@ -58,10 +57,10 @@ class CalendarFragment : XFragment() {
     override fun prepareAdapters(){
         // days
         val units = getDayUnitList()
-        cAdapter = CalendarAdapter(units)
+        cAdapter = CalendarAdapter(units, context)
         cAdapter.notifyDataSetChanged()
         cAdapter.setBlockListener { position ->
-            viewModel.changeDay(units[position].day)
+            viewModel.changeDay(cAdapter.units[position].day)
         }
 
 
@@ -98,9 +97,7 @@ class CalendarFragment : XFragment() {
 
             thisBinding.date.text = getString(R.string.calendar_date, now.get(Calendar.DAY_OF_MONTH),
                 viewModel.getMonth(now.get(Calendar.MONTH), context), now.get(Calendar.YEAR))
-
             cAdapter.setSelectedDay(now.get(Calendar.DAY_OF_MONTH))
-
             viewModel.updateEvents()
 
             super.setTitle()
@@ -181,20 +178,13 @@ class CalendarFragment : XFragment() {
         if (isOpen){
             viewModel.getTemplate { success ->
                 if (success) {
-
-
-
                     val event =viewModel.events.value?.get(viewModel.selectedEvent.value!!)!!
-
 
                     val bundle = Bundle()
                     bundle.putSerializable("event", event)
                     clickToMove(thisBinding.eventContent.getATip, FragmentNavController.GET_A_TIP, bundle)
 
-                    thisBinding.eventContent.eventName.text =
-                       event.template.name
-
-
+                    thisBinding.eventContent.eventName.text = event.template.name
                     thisBinding.eventContent.eventDescription.text = event.template.description
 
                     var properties = ""
@@ -204,7 +194,6 @@ class CalendarFragment : XFragment() {
                         }
 
                     thisBinding.eventContent.eventProperties.text = properties
-
                     thisBinding.eventContent.getATip.visibility = VS.get(event.isTips)
 
                     showEventContainer(true)
@@ -223,7 +212,7 @@ class CalendarFragment : XFragment() {
 
         thisBinding.eventRecycler.visibility = VS.get(!show)
         thisBinding.eventContainer.visibility = VS.get(show)
-        thisBinding.backIcon.visibility = if (show) VISIBLE else INVISIBLE
+        thisBinding.backIcon.visibility = VS.get(show)
         }
 
     override fun getTitle(): String {
@@ -234,6 +223,14 @@ class CalendarFragment : XFragment() {
     }
 
     override fun requireSearch(): Boolean {
+        return false
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (thisBinding.eventContainer.visibility == VISIBLE){
+            showEventContainer(false)
+            return true
+        }
         return false
     }
 
@@ -253,12 +250,14 @@ class CalendarFragment : XFragment() {
     private val changeMonthListener:MenuNavListener = object: MenuNavListener() {
         override fun click(back: Boolean) {
             viewModel.changeMonth(!back)
+            cAdapter.units = getDayUnitList()
+            cAdapter.setSelectedDay(1)
         }
     }
 
 
     /** return bundle for creating a new event */
-    private val addEventBundle: XFragment.BundleGettable = object: XFragment.BundleGettable {
+    private val addEventBundle: BundleGettable = object: BundleGettable {
         override fun getBundle(): Bundle {
             val bundle = Bundle()
             bundle.putSerializable("date", now)
